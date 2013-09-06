@@ -1,0 +1,645 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<title></title>
+		<meta charset="utf-8" />
+	</head>
+	<body id="mobileApp">
+		<!--views-->
+		<div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span data-bind="html: application.Name" ></span>
+					<a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
+					</a>
+				</div>
+			</div>
+			<ul
+				data-template="typesTemplate"
+				data-bind="source: rootTypes"
+                class="content-types-list">
+			</ul>
+		</div>
+		
+		<div data-role="view" id="tabstrip-master-view" data-model="moduleApp.viewModel" data-init="moduleApp.viewModel.initPullToRefreshScroller">
+			<div data-role="header">
+				<div data-role="navbar" class="right-btn-sep">
+					<span data-role="view-title" data-bind="html: type.Name"></span>
+                    <a  class="back-to-app" data-role="button" data-align="left" data-bind="click: back">
+						<span data-bind="html: parentTypeName"></span>
+					</a>
+					<button id="btnAddNew" class="add-item" data-role="button" data-align="right" data-bind="click: add, visible: isEditable">
+						<span class="km-text">+</span>
+					</button>
+				</div>
+			</div>
+			<div id="search-bar" class="search-bar-wrp" data-bind="visible: showSearchBar">
+                <div class="search-input-wrp">
+                    <input type="input" data-bind="value: searchCriteria"/>
+                    <input data-bind="click: clearSearchCriteria" type="button" value="Clear" class="clear-btn" />
+                </div>
+                <input type="button" data-bind="click: refreshMasterViewItems" value="Search" data-role="button" class="search-btn" />
+				<div class="filter-group-wrp" data-bind="visible: showRecentNearestOptions">
+	                <ul data-role="buttongroup">
+	                    <li id="btnFiterByRecent" data-bind="click: bindRecentMasterItems, visible: showRecentNearestOptions">
+	                        Recent
+	                    </li>
+	                    <li id="btnFiterByPosition" data-bind="click: bindNearestMasterItems, visible: showRecentNearestOptions">
+		                    Nearest
+	                    </li>
+	                </ul>
+	            </div>
+            </div>
+			<ul
+				data-role="listview"
+				data-template="masterViewTemplate"
+                data-auto-bind="false"
+                data-endless-scroll="true"
+				data-bind="source: dataSource,  events: { dataBinding: bindingMasterView, click: bindDetailsView}"
+                class="content-items-list"
+				>
+			</ul>
+		</div>
+		
+		<div data-role="view" id="tabstrip-details-view"  data-title="Item details" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-role="button" data-align="left" data-bind="click: close" class="back-to-app"> 
+						<span class="km-text" data-bind="html: parentTypeName"></span>
+					</a>
+					<a data-role="button" class="btn-save" data-align="right" data-bind="click: edit, visible: isEditable">
+						<span class="km-text" >Edit</span>
+					</a>
+				</div>
+			</div>
+            <div data-bind="source: this" data-template="viewTemplate"></div>
+            <div data-role="footer" class="item-actions" ><a data-bind="visible: isEditable" data-role="button" data-rel="actionsheet" href="#itemActions" class="open-actions">Actions</a></div>
+            <ul data-role="actionsheet" id="itemActions" data-popup='{"direction": "left"}'>
+			    <li><a data-action="moduleApp.viewModel.destroy">Delete</a></li>
+            </ul>
+		</div>
+        
+        <div data-role="view" id="tabstrip-edit-view" data-init="moduleApp.viewModel.editorViewInit" data-before-show="moduleApp.viewModel.editViewBeforeShow" data-title="Edit details" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-role="button" data-align="left" data-bind="click: cancel">
+						<span class="km-text">Cancel</span>
+					</a>
+					<a data-role="button" class="btn-save" data-align="right" data-bind="click: save">
+						<span class="km-text">Publish</span>
+					</a>
+				</div>
+			</div>
+            <div data-bind="source: this" data-template="editTemplate"></div>
+            <ul data-role="actionsheet" id="editItemActions" data-popup='{"direction": "left"}'>
+			    <li><a data-bind="visible: allowAccess.hasPhotosAccess" data-action="moduleApp.viewModel.image.capture">Take Photo</a></li>
+                <li><a data-bind="visible: allowAccess.hasPhotosAccess" data-action="moduleApp.viewModel.image.choose">Choose From Library</a></li>
+                <li><span data-bind="invisible: allowAccess.hasPhotosAccess">No access to phone photos</span></li>
+            </ul>
+		</div>
+
+         <!--- html editor view -->
+		<div data-role="view" id="tabstrip-edit-longTextField" data-model="moduleApp.viewModel" class="editor-view">
+            <div data-role="header">
+				<div data-role="navbar">
+					<a data-role="button" class="btn-save" data-align="right" data-bind="click: backFromLongTextFieldEditorToEditView">
+                        <span class="km-text">Done</span>
+                    </a>
+				</div>
+			</div>
+			<div id="editor" data-field-name="" class="editor-wrp"></div>
+        </div>
+
+		<!-- menus -->
+        <div id="side-menu" data-role="view" data-model="moduleApp.viewModel" class="side-menu-view">
+			<div data-bind="click: closeSideMenu" class="to-all-apps">
+				<a data-bind="visible: showSitefiniyBox, click: goToSitefinityBox">
+					All apps
+				</a>
+			</div>
+            <h1 data-bind="html: application.Name"></h1>
+			<h2>Content</h2>
+			<ul id="content-items" 
+                data-template="typesTemplateSideMenu"
+				data-bind="source: rootTypes">
+			</ul>
+			<h2>Settings</h2>
+			<ul data-bind="click: closeSideMenu">
+				<li data-bind="click: goToSettings">
+					<span>Settings</span>
+				</li>
+				<li data-bind="click: logOut">
+					<span>Log out</span>
+				</li>
+			</ul>
+			<ul class="menu-item-template" style="display:none;" data-bind="click: closeSideMenu"> 
+				<li>
+					<span></span>
+				</li>
+			</ul>
+		</div>
+        
+        <div data-role="view" id="tabstrip-settings" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span>Settings</span>
+					<a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
+					</a>
+				</div>
+			</div>
+			<div>
+                <ul data-role="listview" data-style="inset" data-type="group">
+                    <li>Allow access
+                        <ul>
+                            <li>Location <input data-role="switch" id="location-switch" data-bind="checked: allowAccess.hasLocationAccess,events: { change : onAllowAccessChange}"/></li>
+                            <li>Photos <input data-role="switch" id="photos-switch" data-bind="checked: allowAccess.hasPhotosAccess, events: { change : onAllowAccessChange}"/></li>
+                            <li>Contacts <input data-role="switch" id="contacts-switch" data-bind="checked: allowAccess.hasContactsAccess, events: { change : onAllowAccessChange}"/></li>
+                            <li>Error logging <input data-role="switch" id="error-log-switch" data-bind="checked: allowAccess.isErrorLoggingEnabled, events: { change : onAllowAccessChange}"/></li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+		</div>
+        
+        <div data-role="view" id="tabstrip-gallery" data-model="moduleApp.viewModel" data-title="Gallery">
+            <div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-role="button" data-align="left" data-bind="click: image.save">
+						<span class="km-text">Save</span>
+					</a>
+					<a 
+                        data-role="button" 
+                        class="take-photo" 
+                        data-align="right" 
+                        data-rel="actionsheet" 
+                        href="#editImageActions">
+						<span class="km-text">Add</span>
+					</a>
+				</div>
+			</div>
+			<div data-template="imageViewTemplate" id="curren-images" data-bind="source: imageFieldSource" class="add-img-list">
+            </div>
+            <ul data-role="actionsheet" id="editImageActions" data-popup='{"direction": "left"}'>
+    			<li><a data-bind="visible: allowAccess.hasPhotosAccess" data-action="moduleApp.viewModel.image.capture">Take Photo</a></li>
+                <li><a data-bind="visible: allowAccess.hasPhotosAccess" data-action="moduleApp.viewModel.image.choose">Choose From Library</a></li>
+                <li><span data-bind="invisible: allowAccess.hasPhotosAccess">No access to phone photos</span></li>
+            </ul>
+        </div>
+        
+		<div data-role="view" id="tabstrip-gallery-slideshow" data-title="Photo Gallery" data-model="moduleApp.viewModel" class="slideshow-view">
+            <div data-role="header">
+				<div data-role="navbar">
+					<span data-role="view-title"></span>
+					<a data-role="button" data-align="left" data-bind="click: image.done">
+						<span class="km-text">Done</span>
+					</a>
+				</div>
+			</div>
+            <div id="scrollview-container" >
+                <div id="PictureView">
+                </div>
+            </div>
+            <div data-role="footer" class="item-actions" ><a data-bind="visible: image.footer.isVisible" data-role="button" data-rel="actionsheet" href="#imageActions" class="open-actions">Actions</a></div>
+            <ul data-role="actionsheet" id="imageActions" data-popup='{"direction": "left"}'>
+			    <li><a data-action="moduleApp.viewModel.image.destroy">Delete</a></li>
+            </ul>
+        </div>
+        
+        <div data-role="view" id="tabstrip-library" data-model="moduleApp.Files.Documents">           
+    		<div>
+    			<img data-bind="visible: isVisible, attr: { src: documentSource }" />
+            </div>
+        </div>
+
+        <div data-role="view" id="edit-document" data-title="Details" data-model="moduleApp.viewModel">
+            <div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span>Details</span>
+					<a data-role="button" data-align="left" data-bind="click: address.editView.back">
+                        <span class="km-text">Back</span>
+                    </a>
+				</div>
+			</div>
+            <div data-role="footer" class="item-actions" ><a data-bind="click: deleteDocument" data-role="button" data-rel="actionsheet" href="#itemActions" class="open-actions">Delete</a></div>                    
+		</div> 
+        
+        <div data-role="view" id="add-document" data-title="Details" data-model="moduleApp.viewModel">
+            <div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span>Details</span>
+					<a data-role="button" data-align="left" data-bind="click: address.editView.back">
+                        <span class="km-text">Back</span>
+                    </a>
+				</div>
+			</div>
+             <div data-bind="source: getDocumentsSource, click: addDocument" data-template="documentAddTemplate"></div>
+		</div>
+
+        <div data-role="view" id="tabstrip-map" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span>Location</span>
+					<a data-role="button" data-align="left" data-bind="click: address.back">
+                        <span class="km-text">Back</span>
+                    </a>
+				</div>
+			</div>
+            <div style="width:640px;height:1116px">
+                <div id="map_canvas" style="width:100%;height:100%"></div>
+            </div>
+		</div>
+        
+        <div data-role="view" id="tabstrip-edit-address" data-model="moduleApp.viewModel">
+			<div data-role="header">
+				<div data-role="navbar" class="left-btn-sep">
+					<span>Location</span>
+					<a data-role="button" data-align="left" data-bind="click: address.editView.back">
+                        <span class="km-text">Back</span>
+                    </a>
+				</div>
+			</div>
+            <ul class="km-listview km-list" id="tabstrip-edit-address-field" data-field-type="AddressContainer">
+                <li class="addr-form-element" data-bind="visible: address.showForm">
+                    <label for="edit-address-city" style="display: inline-block;">City</label>
+                    <input id="edit-address-city" type="text" data-address-field="City" data-bind="events: {change: address.changeAddress}"/>
+                </li>
+                <li class="addr-form-element" data-bind="visible: address.showForm">
+                    <label for="edit-address-street" style="display: inline-block;">Street</label>
+                    <input id="edit-address-street" type="text" data-address-field="Street" data-bind="events: {change: address.changeAddress}"/>
+                </li>
+                <li class="addr-form-element" data-bind="visible: address.showForm">
+                    <label for="edit-address-zip" style="display: inline-block;">Zip</label>
+                    <input id="edit-address-zip" type="text" data-address-field="Zip" data-bind="events: {change: address.changeAddress}"/>
+                </li>
+                <li class="addr-form-element" data-bind="visible: address.showForm">
+                    <label for="edit-address-code" style="display: inline-block;">Country</label>
+                    <select data-role="dropdown" data-text-field="Name" data-value-field="IsoCode" data-address-field="CountryCode" data-bind="source: address.countries, events: {change: address.changeCountry}" ></select>
+                </li>
+                <li data-bind="visible: address.showStatesSelector">
+                    <label for="edit-address-code" style="display: inline-block;">State</label>
+                    <select data-role="dropdown" data-text-field="Name" data-value-field="Abbreviation" data-address-field="StateCode" data-bind="source: address.states, events: {change: address.changeState}"></select>
+                </li>
+                <li class="addr-map-element" data-bind="visible: address.showMap, events: {click: address.showInMap}">
+                    <div class="addr-map" data-field-type="AddressMap"></div>
+                </li>
+            </ul>
+		</div>
+        
+        <div data-role="view" id="tabstrip-flat-taxon" data-model="moduleApp.viewModel.taxonomy.flat">
+			<div data-role="header">
+				<div data-role="navbar">
+					<span>Tags</span>
+					<a data-role="button" data-align="left" data-bind="click: back">
+                        <span class="km-text">Done</span>
+                    </a>
+				</div>
+			</div>
+			<div id="search-bar-flat-taxon" class="search-bar-wrp">
+                <div class="search-input-wrp">
+					<input id='searchCriteriaInput' type="input" data-bind="value: searchCriteria"/>
+					<input data-bind="click: clearSearchCriteria" type="button" value="Clear" class="clear-btn" />
+                </div>
+                <input type="button" data-bind="click: applySearch" value="Search" data-role="button" class="search-btn" />
+				<div class="filter-group-wrp">
+	            </div>
+            </div>
+            <div id="flat-taxon">
+                <ul data-role="listview"
+    				data-template="tagsPreviewTemplate"
+                    data-auto-bind="true"
+    				data-bind="source: dataSource, click: setSelected"
+                    class="content-items-list">
+                </ul>
+            </div>
+		</div>
+        
+        <!-- templates -->
+		<script type="text/x-kendo-tmpl" id="typesTemplate">
+            <li data-bind="click: bindMasterView">
+				<b class="content-type-name">#= Title#</b>
+			</li>
+		</script>
+		
+        <script type="text/x-kendo-tmpl" id="typesTemplateSideMenu">
+            <li data-bind="click: closeSideMenu">
+                <span data-bind="click: bindMasterView">
+                    #= Title#
+                </span>
+            </li>
+		</script>
+        
+		<script type="text/x-kendo-tmpl" id="masterViewTemplate">
+			<b class="content-item-name">#= moduleApp.getMainShortText(data)#</b>   
+            # if (moduleApp.mode == 0) { # 
+                <span class="content-item-distance">< #= Math.ceil(Distance) #km away</span> 
+            # } #
+            # if (!moduleApp.viewModel.application.EverliveAPIKey && data.PublicationDate) { # 
+                <span class="content-item-date">Published on #= kendo.format('{0:dd MMM, yyyy HH:mm:ss}', new Date(parseInt(PublicationDate.substr(6)))) #</span>
+            # } #
+            <span class="item-details-btn" data-option="getDetails">View item</span>
+		</script>
+		
+		<script id="viewTemplate" type="text/x-kendo-template">
+			<ul class="view-item-list">
+				# var field;
+                for (var i = 0; i < type.Fields.length; i++) {
+					field = type.Fields[i];#
+					#= moduleApp.getFieldViewTemplate(field) #
+				# } #
+			</ul>
+		</script>
+		
+		<script id="editTemplate" type="text/x-kendo-template">
+			<ul class="edit-item-list">
+				# var field;
+                for (var i = 0; i < type.Fields.length; i++) {
+					field = type.Fields[i];#
+					#= moduleApp.getFieldEditTemplate(field) #
+				# } #
+			</ul>
+		</script>
+		
+		<script type="text/x-kendo-tmpl" id="tagsPreviewTemplate">
+			#if (Id !== undefined) {#
+				<b class="content-item-name" data-field-taxonid="#= Id#
+				   " data-field-taxonomy-name="#= Title#
+				   " data-bind="click: taxonomy.flat.setSelected">#= data.Name ? data.Name : data.Title#</b>
+			#}#
+		</script>
+        
+		<!-- field templates -->
+		<!-- view templates -->
+        <!-- main short text -->
+		<script id="mainShortTextViewTemplate" type="text/x-kendo-template">
+			<li class="txt-short-fld main-fld"><h1 data-bind="shortText: item.#= Name #" ></h1></li>
+		</script>
+		<!-- short text -->
+        <script id="shortTextViewTemplate" type="text/x-kendo-template">
+			<li class="txt-short-fld"><b>#= Title #:</b><div data-bind="shortText: item.#= Name #" ></div></li>
+		</script>
+		<!-- long text -->
+		<script id="longTextViewTemplate" type="text/x-kendo-template">
+			<li class="txt-long-fld"><div data-bind="shortText: item.#= Name #" ></div></li>
+		</script>
+		<!-- yes no -->
+		<script id="yesNoViewTemplate" type="text/x-kendo-template">
+			<li class="bool-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="yasNoBinding: item.#= Name #"></span>
+            </li>
+		</script>
+		<!-- number -->
+        <script id="numberViewTemplate" type="text/x-kendo-template">
+			<li class="bool-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="html: item.#= Name #"></span> #= NumberUnit#
+            </li>
+		</script>
+		<!-- date time -->
+        <script id="dateTimeViewTemplate" type="text/x-kendo-template">
+			<li class="date-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="dateTimeBinding: item.#= Name #"></span>
+            </li>
+		</script>
+		<!-- choices -->
+        <script id="choicesViewTemplate" type="text/x-kendo-template">
+			#switch(ChoiceRenderType)
+            {
+            case 'Checkbox':#
+              <li class="checkbox-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="choicesCheckBoxBinding: item.#= Name #"></span>
+              </li>
+              #break;
+            case 'DropDownList':#
+              <li class="select-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="choicesDropDownBinding: item.#= Name #"></span>
+              </li>
+              #break;
+            case 'RadioButton':#
+              <li class="select-fld non-txt-fld">
+                <b>#= Title #:</b> <span data-bind="choicesDropDownBinding: item.#= Name #"></span>
+              </li>
+              #break;
+             }#
+		</script>
+		<!-- media -->
+        <script id="mediaViewTemplate" type="text/x-kendo-template">
+			#switch(MediaType)
+            {
+            case 'image':#
+					<li class="img-fld">
+						<b class="item-lbl">#= Title #:</b> <div data-bind="source: getMediaDataSource('#= Name #')" data-template="imageViewTemplate" data-field-name="#= Name#" data-field-footer="false" class="img-list"></div>
+              </li>
+              #break;
+            case 'file':#
+					<li class="doc-fld">
+						<b>#= Title #:</b> <div data-bind="source: getMediaDataSource('#= Name #')" data-template="documentViewTemplate" class="doc-list"></div>
+              </li>
+              #break;
+            case 'video':#
+					<li class="video-fld">
+                <b>#= Title #:</b>
+              </li>
+              #break;
+             }#
+		</script>
+		<!-- classification -->
+        <script id="classificationViewTemplate" type="text/x-kendo-template">
+					<li class="tag-fld">
+						<b>#= Title #:</b> <span data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-bind="flatTaxonBinding: item.#= Name#"></span>
+              </li>
+		</script>
+		<!-- address -->
+        <script id="addressViewTemplate" type="text/x-kendo-template">
+			#switch(AddressFieldMode)
+            {
+            case 0:#
+					<li class="addr-fld">
+                <b>#= Title #:</b>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#City"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#Street"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#Zip"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#CountryCode"></span>
+              </li>
+              #break;
+            case 1:#
+					<li class="addr-fld">
+                <b>#= Title #:</b>
+                <div data-bind="addressBinding: item.#= Name#, events: {click: address.showInMap}" data-field-name="#= Name#" class="addr-map"></div>
+              </li>
+              #break;
+            case 2:#
+					<li class="addr-fld">
+                <b>#= Title #:</b> 
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#City"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#Street"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#Zip"></span>
+                <span data-bind="html: item.#= Name##= moduleApp.repository.fieldSeparator#CountryCode"></span>
+                <div data-bind="addressBinding: item.#= Name#, events:{click: address.showInMap}" data-field-name="#= Name#" class="addr-map"></div>
+              </li>
+              #break;
+             }#
+		</script>
+
+        <!-- images view templates-->
+		<script id="imageViewTemplate" type="text/x-kendo-template">
+			<div class="img-wrp">
+				<img data-bind="imageSource: src , click: image.slideShow" data-index="i"/>
+            </div>
+		</script>
+        <!--  slideshow view template --->        
+		<script id="slideshowViewTemplate" type="text/x-kendo-template"><div data-role="page" class="img-wrp">
+			    <img src="#= moduleApp.viewModel.image.getCachedUri(data)#" data-bind="imageSource: src" data-field-id="#= data.ChildItemId || data.FileId#"/>
+        </div></script>
+        
+        <!-- documents view templates-->
+		<script id="documentViewTemplate" type="text/x-kendo-template">
+			<div class="doc-wrp">
+                    <a data-bind="documentSource: text, click: bindDocumentDetailView"></a>
+            </div>
+		</script> 
+        
+        <!-- documents edit templates-->
+		<script id="documentEditTemplate" type="text/x-kendo-template">
+			<div class="doc-wrp">
+                    <a data-bind="documentSource: text, click: bindDocumentEditView"></a>
+            </div>
+		</script> 
+        
+        <!-- documents add templates-->
+		<script id="documentAddTemplate" type="text/x-kendo-template">
+            <div>
+				<img src="img/doc-icon.png"/>
+                   <label class="item-lbl">#= name #</label>
+            </div>
+		</script> 
+        
+		<!-- edit templates -->
+        <script id="mainShortTextEditTemplate" type="text/x-kendo-template">
+            <li class="txt-short-fld">
+			    <label class="item-lbl">#= Title #</label> <input type="text" name="#= Name #" data-bind="shortText: item.#= Name #" data-validation/>
+            </li>
+		</script>
+		<script id="shortTextEditTemplate" type="text/x-kendo-template">
+			<li class="txt-short-fld">
+				<label class="item-lbl">#= Title #</label> <input type="text" name="#= Name #" data-bind="shortText: item.#= Name #" data-validation/>
+			</li>
+		</script>
+		<script id="longTextEditTemplate" type="text/x-kendo-template">
+			<li class="txt-long-fld">
+				<label class="item-lbl">#= Title #</label><div data-bind="shortText: item.#= Name #, click: showLongTextFieldEditor" data-field-name="#= Name #" style="min-height:20px" ></div>
+			</li>
+		</script>
+        <script id="yesNoEditTemplate" type="text/x-kendo-template">
+			<li class="bool-fld" data-bind="yasNoBinding: item.#= Name #">
+				<label class="item-lbl">#= Title #</label> <input type="checkbox" data-role="switch"/>
+			</li>
+		</script>
+        <script id="numberEditTemplate" type="text/x-kendo-template">
+			<li class="num-fld">
+                <label class="item-lbl">#= Title #</label> <input type="number" name="#= Name #" data-bind="value: item.#= Name #" data-validation/>
+            </li>
+		</script>
+        <script id="dateTimeEditTemplate" type="text/x-kendo-template">
+			<li class="date-fld">
+                <label class="item-lbl">#= Title #</label><input name="#= Name #" readonly data-bind="dateTimeBinding: item.#= Name #" data-format="dd MMM yyyy HH:mm" data-validation/>
+            </li>
+		</script>
+        <script id="choicesEditTemplate" type="text/x-kendo-template">
+			#switch(ChoiceRenderType)
+            {
+            case 'Checkbox':#
+              <li class="checkbox-fld">
+                 <label class="item-lbl">#= Title #</label>
+                 <ul data-bind="choicesCheckBoxBinding: item.#= Name#" class="km-list">
+                 # for (var i = 0; i < data.Choices.length; i++) {
+                	 var choice = data.Choices[i];#
+                     <li>#= choice.Text#<input type="checkbox" data-role="switch" value="#=choice.Value#" name="#= data.Name#" id="#= data.Name + i #" /></li>
+                 # } #
+                 </ul>
+              </li>
+              #break;
+            case 'DropDownList':#
+              <li class="select-fld">
+                <label class="item-lbl">#= Title #</label>
+    			<select data-bind="choicesDropDownBinding: item.#= Name#">
+    			# for (var i = 0; i < data.Choices.length; i++) {
+    				var choice = data.Choices[i];#
+    				<option value="#=choice.Value#">#= choice.Text#</option>
+    			# } #
+    			</select>
+                </li>
+              #break;
+            case 'RadioButton':#
+                <li class="select-fld">
+                <label class="item-lbl">#= Title #</label>
+    			<select data-bind="choicesDropDownBinding: item.#= Name#">
+    			# for (var i = 0; i < data.Choices.length; i++) {
+    				var choice = data.Choices[i];#
+    				<option value="#=choice.Value#">#= choice.Text#</option>
+    			# } #
+    			</select>
+                </li>
+              #break;  
+             }#
+		</script>
+        
+        <script id="mediaEditTemplate" type="text/x-kendo-template">
+			#switch(MediaType)
+            {
+            case 'image':#
+			<li class="img-fld">
+          		 <b class="item-lbl">#= Title #:</b>
+				 <div data-bind="source: getMediaDataSource('#= Name #')" data-template="imageViewTemplate" data-field-name="#= Name#" data-field-footer="true" class="img-list"></div>
+	              <a 
+	                  data-role="button" 
+	                  data-rel="actionsheet" 
+	                  href="\#editItemActions" 
+	                  data-bind="click: image.clickedImage" 
+	                  data-field-name="#= Name #" 
+	                  data-field-allowmultiple="#= data.AllowMultipleItems #"
+	                  class="take-photo">Add
+	              </a>                  
+              </li>
+              #break;
+            case 'file':#
+					<li class="doc-fld">
+						<b>#= Title #:</b> <div data-bind="source: getMediaDataSource('#= Name #')" data-template="documentViewTemplate" class="doc-list"></div>
+              </li>
+              #break;
+            case 'video':#
+					<li class="video-fld">
+                <b>#= Title #:</b> 
+              </li>
+              #break;
+             }#
+		</script>
+        <!--  flat taxon view template --->        
+        <script id="flatTaxonViewTemplate" type="text/x-kendo-template">
+			<div class="tag-wrp">
+                <span>#=Title#</span>
+            </div>
+		</script>
+        <!--  flat taxon edit template --->        
+        <script id="flatTaxonEditTemplate" type="text/x-kendo-template">
+			<div class="tag-wrp">
+                <span>#=Title#</span>
+				<a data-bind="click: taxonomy.flat.destroy" data-field-taxonid="#= Id#" data-field-name="#= FieldName#" class="del-item">X</a>
+            </div>
+		</script>
+        <script id="classificationEditTemplate" type="text/x-kendo-template">
+            <li class="tag-fld">
+			<b>#= Title #:</b>
+                    <div data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-bind="flatTaxonBinding: item.#= Name#" >
+                    </div>
+						<a data-bind="click: taxonomy.flat.navigate" data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-role="button">Add</a>
+              </li>
+		</script>
+        <script id="addressEditTemplate" type="text/x-kendo-template">
+            <li class="addr-fld">
+                <b>#= Title #:</b><i data-bind="click: address.editView.goToAddress" data-field-name="#= Name#" data-address-field-mode="#= AddressFieldMode#" class="add-addr">Address</i>
+            </li>
+		</script>
+	</body>
+</html>
