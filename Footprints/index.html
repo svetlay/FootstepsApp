@@ -1,41 +1,43 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html>
-	<head>
-		<title></title>
-		<meta charset="utf-8" />
-		<link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
+    <head>
+        <title></title>
+        <meta charset="utf-8" />
+        <link href="kendo/styles/kendo.mobile.all.min.css" rel="stylesheet" />
         <link href="kendo/styles/kendo.common.min.css" rel="stylesheet" />
         <link href="kendo/styles/kendo.default.min.css" rel="stylesheet" />
-		<link href="styles/main.css" rel="stylesheet" />
-		<script type="text/javascript" src="cordova.js"></script>
+        <link href="styles/main.css" rel="stylesheet" />
+        <link href="http://fonts.googleapis.com/css?family=Raleway" rel="stylesheet" />
+
+        <script type="text/javascript" src="cordova.js"></script>
         <script src="kendo/js/jquery.min.js"></script>
         <script src="kendo/js/jquery.cookie.js"></script>
-		<script src="kendo/js/kendo.mobile.min.js"></script> 
+        <script src="kendo/js/kendo.mobile.min.js"></script>
         <script src="scripts/jQueryMapPlugins/js/jquery.ui.map.js"></script>
-		<script src="scripts/jQueryMapPlugins/js/jquery.ui.map.extensions.js"></script>
+        <script src="scripts/jQueryMapPlugins/js/jquery.ui.map.extensions.js"></script>
         <script src="kendo/js/kendo.all.min.js"></script>
-        <script src="scripts/config.js"></script>        
-	</head>
-	<body id="mobileApp">
-		<div data-role="view" id="tabstrip-home" data-model="sitefinityMobileApplication.viewModel" class="login-scrn">
+        <script src="scripts/config.js"></script>
+    </head>
+    <body id="mobileApp">
+        <div data-role="view" id="tabstrip-home" data-model="sitefinityMobileApplication.viewModel" class="login-scrn">
             <hgroup>
-                <h1 id="moduleName" data-bind="html: moduleName" class="app-name"></h1>
-                <h2 class="sf-name">Sitefinity</h2>
+                <!--<h1 id="moduleName" data-bind="html: moduleName" class="app-name"></h1>-->
+                <!--<h4 class="sf-name">Sitefinity</h4>-->
             </hgroup>
             <ul class="km-listview km-list km-listinset">
-				<li>
-					<label for="username" style="display: inline-block;">Username</label>
-					<input type="text" id="username" data-bind="value: userData.username"  />
-				</li>
-				<li>
-					<label for="password" style="display: inline-block;">Password</label>
-					<input type="password" id="password" data-bind="value: userData.password"  />
-				</li>
-			</ul>
+                <li>
+
+                    <input type="text" id="username" data-bind="value: userData.username" placeholder="Username" />
+                </li>
+                <li>
+
+                    <input type="password" id="password" data-bind="value: userData.password" placeholder="Password"  />
+                </li>
+            </ul>
             <div class="btn-wrp">
-			    <button class="km-button" id="btnLogIn" data-bind="events: {click: logIn}">Log In</button>
+                <button class="km-button" id="btnLogIn" data-bind="events: {click: logIn}"> </button>
             </div>
-		</div>
+        </div>
         <script src="scripts/address.js"></script>
         <script src="scripts/everlive/reqwest.js"></script>
         <script src="scripts/everlive/rsvp.js"></script>
@@ -43,5 +45,5 @@
         <script src="scripts/repository.js"></script>
         <script src="scripts/sitefinityAjax.js"></script>
         <script src="scripts/mobileApp.js"></script>
-	</body>
+    </body>
 </html>

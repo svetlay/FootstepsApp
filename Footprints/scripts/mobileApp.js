@@ -1,9 +1,10 @@
-﻿var repositoryName = everliveAPIKey != '' ? 'everlive' : 'sitefinity';
+var repositoryName = everliveAPIKey != '' ? 'everlive' : 'sitefinity';
 
 var SitefinityMobileApplication = function () {
     this.app = new kendo.mobile.Application(document.body,
 											{
-											    transition: 'slide'
+											    transition: 'slide',
+                                                skin: "flat"
 											});
 
     this.moduleName = moduleName;

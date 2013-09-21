@@ -1,8 +1,10 @@
-﻿#mobileApp
+#mobileApp .km-content, #mobileApp .km-header
 {
-    background-color: #fff;
+   
+    font-family: 'Raleway', sans-serif;
 }
-#mobileApp.km-android .km-view {
+#mobileApp.km-android .km-view
+{
     -moz-box-direction: normal;
     -webkit-box-direction: normal;
     -webkit-flex-direction: column;
@@ -10,12 +12,18 @@
     -ms-flex-direction: column;
     flex-direction: column;
 }
+[data-role="view"], [data-role="drawer"] 
+{
+    visibility: visible;
+}
+
 #mobileApp .km-content
 {
-    background-color: #fff;
-    background-image: none;
+    
+   
     color: #000;
 }
+
 textarea
 {
     box-sizing: border-box;
@@ -55,11 +63,22 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 /* Buttons */
 #mobileApp .km-button
 {
-  background-color: #fff;
-  background: -webkit-linear-gradient(top, #fff, #e1e1e1);
-  background: linear-gradient(top, #fff, #e1e1e1);
-  color: #333;
-  border-color: #d6d6d6;
+    background-color: none;
+    background: none;
+    
+    color: white;
+    border: none;
+}
+
+#mobileApp .km-back
+{
+   
+
+    background: transparent;
+    background-size: cover;
+    border: 0;
+    box-shadow: none;
+    color: white;
 }
 #mobileApp .km-button .km-text
 {
@@ -86,6 +105,14 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     opacity: 0.8;
 }
+
+#mobileApp .user-icon
+{
+    float: left;
+    width: 40px;
+    border-radius: 20px;
+    margin-right: 15px;
+}
 #mobileApp .btn-save
 {
     color: #fff;
@@ -98,6 +125,20 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     box-shadow: none;
 }
+
+#mobileApp .km-listinset>li
+{
+    border-radius: 0;
+    border: none;
+    margin-bottom: 20px;
+    border-left: 4px solid #6ba338;
+}
+
+#mobileApp .km-ios .km-list>li
+{
+    border-top: 0;
+}
+
 #mobileApp .back-to-app .km-text
 {
     display: inline-block;
@@ -107,9 +148,10 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     text-overflow: ellipsis;
     text-indent: 0;
 }
+
 #mobileApp .side-menu
 {
-    display: block;
+ 
     margin-top: .5rem;
     padding: 0;
     border: 0;
@@ -128,7 +170,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 #mobileApp .add-item
 {
-    display: block;
+    
     margin-top: .4rem;
     width: 2rem;
     height: 2rem;
@@ -191,7 +233,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp.km-android .km-navbar .take-photo
 {
     margin-right: 1em;
-    margin-left: 1em;    
+    margin-left: 1em; 
     margin-bottom: .5em;
 }
 #mobileApp .take-photo .km-text
@@ -219,12 +261,17 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     overflow: hidden;
     vertical-align: middle;
 }
+
+#mobileApp .login-scrn
+{
+    background: url('../img/ticks.png');
+}
+
 /* Login screen */
 #mobileApp .login-scrn .km-content
 {
-  background-color: #fff;
-  background: -webkit-linear-gradient(top, #fff, #e0e0e0);
-  background: linear-gradient(top, #fff, #e0e0e0);
+    
+    background: url('../img/footprints.png') no-repeat;
 }
 #mobileApp .login-scrn .km-content:before
 {
@@ -234,11 +281,23 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     display: block;
     content: " ";
     width: 0;
-	height: 0;
-	border-top: 31rem solid #fff;
-	border-right: 22rem solid transparent;
+    height: 0;
+    border-top: 31rem solid #fff;
+    border-right: 22rem solid transparent;
     opacity: 0.6;
 }
+
+#mobileApp .login-scrn #btnLogIn
+{
+    background: url("../img/login-arrow.png") no-repeat  #6ba338;
+    background-position: 5px 0;
+    border-radius: 0;
+    border: none;
+    box-shadow: none;
+    color: white;
+    width: 25px;
+}
+
 #mobileApp .logo
 {
     margin: 5rem 4rem 2rem;
@@ -266,11 +325,14 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 .login-scrn .km-listinset, .btn-wrp
 {
-    margin: 2rem;
+    float: left;
+    margin-top: 230px;
+    margin-left: 30px;
 }
+
 .login-scrn .km-button
 {
-    width: 100%;  
+    width: 100%; 
     background-color: #fff;
     background: -webkit-linear-gradient(top, #fff, #e0e0e0);
     background: linear-gradient(top, #fff, #e0e0e0);
@@ -300,19 +362,19 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 #mobileApp .login-scrn .km-list > li input
 {
-    width: 60%;
+    position: static;
+    padding: 0;
 }
 /* Header */
 #mobileApp .km-navbar
 {
-    background-color: #fff;
-    background: -webkit-linear-gradient(top, #fff, #e0e0e0);
-    background: linear-gradient(top, #fff, #e0e0e0);
+    background-color: #6ba338;
+    background-image: none;
 }
 #mobileApp.km-android .km-navbar
 {
     border-top: 1px solid #d4d0c8;
-    background-color: #e0e0e0;
+    background-color: #6ba338;
     background-image: none;
     padding-left: 0;
     padding-right: 0;
@@ -326,11 +388,10 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp.km-android .km-navbar .km-rightitem
 {
     right: 0;
-    border-left: 1px solid #ccc;
 }
 #mobileApp .km-view-title
 {
-    color: #000;
+    color: #fff;
     text-shadow: none;
     visibility: visible;
     font-weight: normal;
@@ -339,9 +400,9 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     display: block;
     width: 100%;
-    -webkit-box-sizing:border-box;
-    -moz-box-sizing:border-box;
-    box-sizing:border-box;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
     
     overflow: hidden;
     text-overflow: ellipsis;
@@ -353,11 +414,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 .km-ios #tabstrip-application-types .km-view-title span
 {
-    padding-left: 3rem;   
+    padding-left: 3rem; 
 }
 .km-android #tabstrip-application-types .km-view-title span
 {
-    padding-left: 4rem;   
+    padding-left: 4rem; 
 }
 
 .km-ios #tabstrip-master-view .km-view-title span
@@ -366,7 +427,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     padding-right: 5.5rem;
 }
 .km-android #tabstrip-master-view .km-view-title span
-{     
+{ 
     padding-right: 3rem;
     padding-left: 5rem; 
 }
@@ -377,12 +438,10 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .left-btn-sep .km-leftitem
 {
     padding-right: .5em;
-    border-right: 1px solid #D6D6D6;
 }
 #mobileApp .right-btn-sep .km-rightitem 
 {
     padding-left: .5em;
-    border-left: 1px solid #D6D6D6;
 }
 /* Side Menu */
 .side-menu-view .to-all-apps
@@ -530,7 +589,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     background-color: #fff;
     vertical-align: middle;
 }
- #mobileApp .search-input-wrp input[type="input"]
+#mobileApp .search-input-wrp input[type="input"]
 {
     width: 11rem;
     border: 0;
@@ -598,7 +657,9 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .content-types-list > li
 {
     padding: 1rem 1.5rem;
-    border-bottom: 1px solid #c1c1c1;
+    box-shadow: 1px 1px 1px #c1c1c1;
+    background-color: white;
+    margin: 15px 4px;
     position: relative;
 }
 .content-types-list > li:before, .item-details-btn
@@ -608,9 +669,9 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     right: 1rem;
     display: block;
     content: " ";
-    width: 1.5rem;
+    width: 1rem;
     height: 1.5rem;
-    background: transparent url(../img/arrow.png) no-repeat 0 0;
+    background: transparent url(../img/next-arrow.png) no-repeat 0 0;
     background-size: cover;
 }
 .item-details-btn
@@ -641,10 +702,22 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .content-items-list > li
 {
     padding: 1rem 1rem;
-    border-bottom: 1px solid #c1c1c1;
-    background-color: transparent;
+    box-shadow: 1px 1px 1px #c1c1c1;
+    background-color: white;
+    
+    border-left: 6px solid #6ba338;
     line-height: .8em;
     font-size: 1.4em;
+    background-image: none;
+    position: relative;
+    top: 10px;
+    -webkit-transform: none !important;
+    margin-top: 12px;
+}
+
+#mobileApp .content-items-list > li .item-details-btn
+{
+    background-image: none;
 }
 .content-items-list .content-item-name
 {
@@ -746,11 +819,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .km-content .txt-long-fld p, .km-content .txt-long-fld h1, .km-content .txt-long-fld h2, .km-content .txt-long-fld h3, .km-content .txt-long-fld h4, .km-content .txt-long-fld h5, .km-content .txt-long-fld h6
 {
     margin-left: 0;
-    margin-right: 0;    
+    margin-right: 0; 
 }
 .km-content .txt-long-fld quotation
 {
-    margin: 1em 1rem;    
+    margin: 1em 1rem; 
     font-style: italic;
 }
 .doc-list
@@ -816,14 +889,14 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     height: 2rem;
     line-height: 1;
     overflow: hidden;
-    vertical-align: top;    
+    vertical-align: top; 
     text-align: center;
     background-color: #f2f2f2;
 }
 .add-img-list .img-wrp
 {
     width: 4rem;
-    height: 4rem;    
+    height: 4rem; 
 }
 .img-wrp img
 {
@@ -963,7 +1036,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 .img-fld .item-lbl
 {
-    padding-top: .7rem;    
+    padding-top: .7rem; 
 }
 .choice-lbl, #mobileApp .edit-item-list input[type="radio"], #mobileApp .edit-item-list input[type="checkbox"]
 {
@@ -1068,7 +1141,8 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     color: #fff;
     text-shadow: 0 -1px rgba(0, 0, 0, 0.3);
 }
-.km-android .km-actionsheet>li>span {
+.km-android .km-actionsheet>li>span
+{
     font-size: 1.2em;
     font-weight: normal;
     color: #fff;
@@ -1082,9 +1156,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     text-decoration: none;
     border-bottom: 1px solid #444;
 }
-.km-android .km-actionsheet>li:last-child>span {
+.km-android .km-actionsheet>li:last-child>span
+{
     border: 0;
 }
-.km-android .km-actionsheet>li>span:focus, .km-android .km-actionsheet>li>span:active {
+.km-android .km-actionsheet>li>span:focus, .km-android .km-actionsheet>li>span:active
+{
     background: #33b5e5;
 }

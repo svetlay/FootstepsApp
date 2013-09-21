@@ -1,4 +1,4 @@
-﻿var ModuleApp = function () {
+var ModuleApp = function () {
     /* Fields templates mapping */
     this.fieldsViewTemplatesMapping = {
         'MainShortText': 'mainShortTextViewTemplate',
@@ -47,6 +47,13 @@
     /* Field Types */
     this.typeNames = ['Unknown', 'ShortText', 'LongText', 'MultipleChoice', 'YesNo', 'Currency', 'DateTime', 'Number', 'Classification', 'Media', 'Guid', 'GuidArray', 'Choices', 'Address'];
     this.getRootTypes = function (types) {
+        var rootTypes = $.grep(types, function (n, i) {
+            return (n.ParentTypeId === moduleApp.emptyGuid || n.ParentTypeId === undefined);
+        });
+        return rootTypes;
+    };
+    
+     this.getMyRootTypes = function (types) {
         var rootTypes = $.grep(types, function (n, i) {
             return (n.ParentTypeId === moduleApp.emptyGuid || n.ParentTypeId === undefined);
         });
