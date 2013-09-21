@@ -53,7 +53,7 @@ var ModuleApp = function () {
         return rootTypes;
     };
     
-     this.getMyRootTypes = function (types) {
+    this.getMyRootTypes = function (types) {
         var rootTypes = $.grep(types, function (n, i) {
             return (n.ParentTypeId === moduleApp.emptyGuid || n.ParentTypeId === undefined);
         });
@@ -120,111 +120,111 @@ var ModuleApp = function () {
     },
 
     /* Events */
-	this.Events = {
-	    _handlers: {},
+    this.Events = {
+        _handlers: {},
 
-	    _getHandler: function (eventName) {
-	        return this._handlers[eventName];
-	    },
-	    _registerHandler: function (eventName, handler) {
-	        var existingHandlers = this._getHandler(eventName);
-	        if (Object.prototype.toString.call(existingHandlers) === '[object Array]') {
-	            existingHandlers.push(handler);
-	        }
-	        else {
-	            this._handlers[eventName] = [handler];
-	        }
-	    },
+        _getHandler: function (eventName) {
+            return this._handlers[eventName];
+        },
+        _registerHandler: function (eventName, handler) {
+            var existingHandlers = this._getHandler(eventName);
+            if (Object.prototype.toString.call(existingHandlers) === '[object Array]') {
+                existingHandlers.push(handler);
+            }
+            else {
+                this._handlers[eventName] = [handler];
+            }
+        },
 
-	    _removeHandler: function (eventName, handler) {
-	        var existingHandlers = this._getHandler(eventName),
-			index = -1;
-	        if (Object.prototype.toString.call(existingHandlers) === '[object Array]') {
-	            index = existingHandlers.indexOf(handler);
-	            if (index >= 0) {
-	                existingHandlers.splice(index, 1);
-	            }
-	        }
-	    },
+        _removeHandler: function (eventName, handler) {
+            var existingHandlers = this._getHandler(eventName),
+            index = -1;
+            if (Object.prototype.toString.call(existingHandlers) === '[object Array]') {
+                index = existingHandlers.indexOf(handler);
+                if (index >= 0) {
+                    existingHandlers.splice(index, 1);
+                }
+            }
+        },
 
-	    _raiseEvent: function (eventName, eventArgs) {
-	        var handlers = this._getHandler(eventName);
-	        if (Object.prototype.toString.call(handlers) === '[object Array]') {
-	            for (i = 0; i < handlers.length; i++) {
-	                var handler = handlers[i];
-	                if (typeof handler === 'function') {
-	                    handlers[i](eventArgs);
-	                }
-	            }
-	        }
-	    },
-	    /* CRUD Operations events */
-	    /* Add handlers */
-	    add_onBeforeRead: function (callback) {
-	        this._registerHandler('beforeRead', callback);
-	    },
-	    add_onAfterRead: function (callback) {
-	        this._registerHandler('afterRead', callback);
-	    },
-	    add_onBeforeCreate: function (callback) {
-	        this._registerHandler('beforeCreate', callback);
-	    },
-	    add_onAfterCreate: function (callback) {
-	        this._registerHandler('afterCreate', callback);
-	    },
-	    add_onBeforeUpdate: function (callback) {
-	        this._registerHandler('beforeUpdate', callback);
-	    },
-	    add_onAfterUpdate: function (callback) {
-	        this._registerHandler('afterUpdate', callback);
-	    },
-	    add_onBeforeDelete: function (callback) {
-	        this._registerHandler('beforeDelete', callback);
-	    },
-	    add_onAfterDelete: function (callback) {
-	        this._registerHandler('afterDelete', callback);
-	    },
-	    /* Remove handlers */
-	    remove_onBeforeRead: function (callback) {
-	        this._removeHandler('beforeRead', callback);
-	    },
-	    remove_onAfterRead: function (callback) {
-	        this._removeHandler('afterRead', callback);
-	    },
-	    remove_onBeforeCreate: function (callback) {
-	        this._removeHandler('beforeCreate', callback);
-	    },
-	    remove_onAfterCreate: function (callback) {
-	        this._removeHandler('afterCreate', callback);
-	    },
-	    remove_onBeforeUpdate: function (callback) {
-	        this._removeHandler('beforeUpdate', callback);
-	    },
-	    remove_onAfterUpdate: function (callback) {
-	        this._removeHandler('afterUpdate', callback);
-	    },
-	    remove_onBeforeDelete: function (callback) {
-	        this._removeHandler('beforeDelete', callback);
-	    },
-	    remove_onAfterDelete: function (callback) {
-	        this._removeHandler('afterDelete', callback);
-	    },
+        _raiseEvent: function (eventName, eventArgs) {
+            var handlers = this._getHandler(eventName);
+            if (Object.prototype.toString.call(handlers) === '[object Array]') {
+                for (i = 0; i < handlers.length; i++) {
+                    var handler = handlers[i];
+                    if (typeof handler === 'function') {
+                        handlers[i](eventArgs);
+                    }
+                }
+            }
+        },
+        /* CRUD Operations events */
+        /* Add handlers */
+        add_onBeforeRead: function (callback) {
+            this._registerHandler('beforeRead', callback);
+        },
+        add_onAfterRead: function (callback) {
+            this._registerHandler('afterRead', callback);
+        },
+        add_onBeforeCreate: function (callback) {
+            this._registerHandler('beforeCreate', callback);
+        },
+        add_onAfterCreate: function (callback) {
+            this._registerHandler('afterCreate', callback);
+        },
+        add_onBeforeUpdate: function (callback) {
+            this._registerHandler('beforeUpdate', callback);
+        },
+        add_onAfterUpdate: function (callback) {
+            this._registerHandler('afterUpdate', callback);
+        },
+        add_onBeforeDelete: function (callback) {
+            this._registerHandler('beforeDelete', callback);
+        },
+        add_onAfterDelete: function (callback) {
+            this._registerHandler('afterDelete', callback);
+        },
+        /* Remove handlers */
+        remove_onBeforeRead: function (callback) {
+            this._removeHandler('beforeRead', callback);
+        },
+        remove_onAfterRead: function (callback) {
+            this._removeHandler('afterRead', callback);
+        },
+        remove_onBeforeCreate: function (callback) {
+            this._removeHandler('beforeCreate', callback);
+        },
+        remove_onAfterCreate: function (callback) {
+            this._removeHandler('afterCreate', callback);
+        },
+        remove_onBeforeUpdate: function (callback) {
+            this._removeHandler('beforeUpdate', callback);
+        },
+        remove_onAfterUpdate: function (callback) {
+            this._removeHandler('afterUpdate', callback);
+        },
+        remove_onBeforeDelete: function (callback) {
+            this._removeHandler('beforeDelete', callback);
+        },
+        remove_onAfterDelete: function (callback) {
+            this._removeHandler('afterDelete', callback);
+        },
 
-	    /* Templates building events */
-	    /* Add handlers */
-	    add_onViewFieldTemplateBuilding: function (callback) {
-	        this._registerHandler('viewFieldTemplateBuilding', callback);
-	    },
-	    add_onEditFieldTemplateBuilding: function (callback) {
-	        this._registerHandler('editFieldTemplateBuilding', callback);
-	    },
-	    remove_onViewFieldTemplateBuilding: function (callback) {
-	        this._registerHandler('viewFieldTemplateBuilding', callback);
-	    },
-	    remove_onEditFieldTemplateBuilding: function (callback) {
-	        this._registerHandler('editFieldTemplateBuilding', callback);
-	    }
-	}
+        /* Templates building events */
+        /* Add handlers */
+        add_onViewFieldTemplateBuilding: function (callback) {
+            this._registerHandler('viewFieldTemplateBuilding', callback);
+        },
+        add_onEditFieldTemplateBuilding: function (callback) {
+            this._registerHandler('editFieldTemplateBuilding', callback);
+        },
+        remove_onViewFieldTemplateBuilding: function (callback) {
+            this._registerHandler('viewFieldTemplateBuilding', callback);
+        },
+        remove_onEditFieldTemplateBuilding: function (callback) {
+            this._registerHandler('editFieldTemplateBuilding', callback);
+        }
+    }
 };
 
 ModuleApp.prototype = {
@@ -329,7 +329,7 @@ ModuleApp.prototype = {
                 }
                 else {
                     var parentItemId = e.dataItem.OriginalContentId,
-					currentType = moduleApp.viewModel.type;
+                    currentType = moduleApp.viewModel.type;
                     moduleApp.viewModel.set('parentTypeName', moduleApp.viewModel.type.Name);
                     moduleApp.viewModel.parentTypeNames.push(moduleApp.viewModel.type.Name);
                     if (moduleApp.viewModel.originalContentIds[moduleApp.viewModel.originalContentIds.length - 1] !== parentItemId && moduleApp.viewModel.originalContentIds.length > 0) {
@@ -383,17 +383,17 @@ ModuleApp.prototype = {
             },
             destroy: function (e) {
                 navigator.notification.confirm(
-					'Do you want to delete this item?',
-					function (confirmed) {
-					    if (confirmed === true || confirmed === 1) {
-					        that.app.showLoading();
-					        that.viewModel.dataSource.remove(that.viewModel.item);
-					        that.viewModel.dataSource.sync();
-					    }
-					},
-					'Delete',
-					'Delete,Cancel'
-					);
+                    'Do you want to delete this item?',
+                    function (confirmed) {
+                        if (confirmed === true || confirmed === 1) {
+                            that.app.showLoading();
+                            that.viewModel.dataSource.remove(that.viewModel.item);
+                            that.viewModel.dataSource.sync();
+                        }
+                    },
+                    'Delete',
+                    'Delete,Cancel'
+                    );
             },
             save: function (e) {
                 e.preventDefault();
@@ -457,8 +457,8 @@ ModuleApp.prototype = {
                     that.viewModel.parentContentTypesPath.pop();
                     that.viewModel.originalContentIds.pop();
                     var types = that.viewModel.application.Types,
-					currentParentIdIndex = that.viewModel.parentContentTypesPath.length - 1,
-					newTypeId = that.viewModel.parentContentTypesPath[currentParentIdIndex]
+                    currentParentIdIndex = that.viewModel.parentContentTypesPath.length - 1,
+                    newTypeId = that.viewModel.parentContentTypesPath[currentParentIdIndex]
                     tempType = $.grep(types, function (n, i) {
                         return (n.Id === newTypeId);
                     });
@@ -489,7 +489,7 @@ ModuleApp.prototype = {
             showLongTextFieldEditor: function (e) {
                 e.preventDefault();
                 var src, value = '',
-				fieldName = $(e.currentTarget).attr("data-field-name");
+                fieldName = $(e.currentTarget).attr("data-field-name");
                 if (this.item.hasOwnProperty(fieldName)) {
                     src = this.item[fieldName];
                     if (src) {
@@ -558,38 +558,38 @@ ModuleApp.prototype = {
             },
             editorViewInit: function (e) {
                 moduleApp.validator = $(e.sender.element).kendoValidator(
-					{
-					    rules: {
-					        mindate: function (input) {
-					            var dateFormat, minDate, date;
-					            if (input.filter('[type=datetime]').filter("[mindate]").length && input.val() !== '' && input.attr("mindate").length > 0) {
-					                dateFormat = input.attr('data-format');
-					                minDate = kendo.parseDate(input.attr("mindate"), 'd/M/yyyy');
-					                date = kendo.parseDate(input.val(), dateFormat);
-					                return date >= minDate;
-					            }
-					            return true;
-					        },
-					        maxdate: function (input) {
-					            var dateFormat, maxDate, date;
-					            if (input.filter('[type=datetime]').filter("[maxdate]").length && input.val() !== '' && input.attr("maxdate").length > 0) {
-					                dateFormat = input.attr('data-format');
-					                maxDate = kendo.parseDate(input.attr("maxdate"), 'd/M/yyyy');
-					                date = kendo.parseDate(input.val(), dateFormat);
-					                return date <= maxDate;
-					            }
-					            return true;
-					        }
-					    },
-					    messages: {
-					        mindate: function (input) {
-					            return '{0} should be greater than or equal to {1}';
-					        },
-					        maxdate: function (input) {
-					            return '{0} should be smaller than or equal to {1}';
-					        }
-					    }
-					}).data('kendoValidator');
+                    {
+                    rules: {
+                            mindate: function (input) {
+                                var dateFormat, minDate, date;
+                                if (input.filter('[type=datetime]').filter("[mindate]").length && input.val() !== '' && input.attr("mindate").length > 0) {
+                                    dateFormat = input.attr('data-format');
+                                    minDate = kendo.parseDate(input.attr("mindate"), 'd/M/yyyy');
+                                    date = kendo.parseDate(input.val(), dateFormat);
+                                    return date >= minDate;
+                                }
+                                return true;
+                            },
+                            maxdate: function (input) {
+                                var dateFormat, maxDate, date;
+                                if (input.filter('[type=datetime]').filter("[maxdate]").length && input.val() !== '' && input.attr("maxdate").length > 0) {
+                                    dateFormat = input.attr('data-format');
+                                    maxDate = kendo.parseDate(input.attr("maxdate"), 'd/M/yyyy');
+                                    date = kendo.parseDate(input.val(), dateFormat);
+                                    return date <= maxDate;
+                                }
+                                return true;
+                            }
+                        },
+                    messages: {
+                            mindate: function (input) {
+                                return '{0} should be greater than or equal to {1}';
+                            },
+                            maxdate: function (input) {
+                                return '{0} should be smaller than or equal to {1}';
+                            }
+                        }
+                }).data('kendoValidator');
             },
             editViewBeforeShow: function (e) {
                 if (moduleApp.viewModel.hasLongTextField && moduleApp.htmlEditor == null) {
@@ -654,11 +654,11 @@ ModuleApp.prototype = {
             bindDocumentAddView: function (e) {
                 var reader = fileSystem.root.createReader();
                 reader.readEntries(
-					function (entries) {
-					    that.documentEntries = entries;
-					    that.app.navigate('#add-document');
-					}, function (err) {
-					});
+                    function (entries) {
+                        that.documentEntries = entries;
+                        that.app.navigate('#add-document');
+                    }, function (err) {
+                    });
             },
             getDocumentsSource: function (e) {
                 return that.documentEntries;
@@ -694,11 +694,11 @@ ModuleApp.prototype = {
                     goToAddress: function (e) {
                         var that = this;
                         var item = this.get('item'),
-						addressFieldMode = $(e.currentTarget).attr('data-address-field-mode'),
-						fieldName = $(e.currentTarget).attr('data-field-name'),
-						addressContainer = $('#tabstrip-edit-address [data-field-type="AddressContainer"]'),
-						mapContainer = $('#tabstrip-edit-address [data-field-type="AddressMap"]'),
-						addressItem, countryCode;
+                        addressFieldMode = $(e.currentTarget).attr('data-address-field-mode'),
+                        fieldName = $(e.currentTarget).attr('data-field-name'),
+                        addressContainer = $('#tabstrip-edit-address [data-field-type="AddressContainer"]'),
+                        mapContainer = $('#tabstrip-edit-address [data-field-type="AddressMap"]'),
+                        addressItem, countryCode;
                         moduleApp.viewModel.address.currentFieldName = fieldName;
                         var bindField = function () {
                             var map;
@@ -783,9 +783,9 @@ ModuleApp.prototype = {
 
                 changeAddress: function (e) {
                     var address = '',
-					    addressField = moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName],
-					    country = $($(e.target.parentElement.parentElement).find('[data-address-field="CountryCode"]').get(0)).children(':selected').text(),
-                        state = $($(e.target.parentElement.parentElement).find('[data-address-field="StateCode"]').get(0)).children(':selected').text();
+                    addressField = moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName],
+                    country = $($(e.target.parentElement.parentElement).find('[data-address-field="CountryCode"]').get(0)).children(':selected').text(),
+                    state = $($(e.target.parentElement.parentElement).find('[data-address-field="StateCode"]').get(0)).children(':selected').text();
                     zip = '',
                     street = '',
                     city = '';
@@ -810,26 +810,26 @@ ModuleApp.prototype = {
 
                 findAddress: function (address) {
                     var response = { status: '', result: '' },
-					geocoder = new google.maps.Geocoder(),
-					bindAddressField = function (addressLoc) {
-					    var addressObject = addressLoc.result,
-                            latitudeField = moduleApp.repository.latitudeField,
-                            longitudeField = moduleApp.repository.longitudeField;
-					    if (addressObject !== '') {
-					        moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName][latitudeField] = addressObject[Object.keys(addressObject)[0]];
-					        moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName][longitudeField] = addressObject[Object.keys(addressObject)[1]];
-					        moduleApp.viewModel.address.refreshMap();
-					    }
-					},
-					bindAddressLocation = function (addressLoc) {
-					    switch (addressLoc.status) {
-					        case "ZERO_RESULTS", "OVER_QUERY_LIMIT":
-					            break;
-					        case "OK":
-					            bindAddressField(addressLoc);
-					            break;
-					    }
-					};
+                    geocoder = new google.maps.Geocoder(),
+                    bindAddressField = function (addressLoc) {
+                        var addressObject = addressLoc.result,
+                        latitudeField = moduleApp.repository.latitudeField,
+                        longitudeField = moduleApp.repository.longitudeField;
+                        if (addressObject !== '') {
+                            moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName][latitudeField] = addressObject[Object.keys(addressObject)[0]];
+                            moduleApp.viewModel.item[moduleApp.viewModel.address.currentFieldName][longitudeField] = addressObject[Object.keys(addressObject)[1]];
+                            moduleApp.viewModel.address.refreshMap();
+                        }
+                    },
+                    bindAddressLocation = function (addressLoc) {
+                        switch (addressLoc.status) {
+                            case "ZERO_RESULTS", "OVER_QUERY_LIMIT":
+                                break;
+                            case "OK":
+                                bindAddressField(addressLoc);
+                                break;
+                        }
+                    };
 
                     geocoder.geocode({ 'address': address }, function (results, status) {
                         if (results[0] !== undefined && results[0].hasOwnProperty('geometry')) {
@@ -853,10 +853,10 @@ ModuleApp.prototype = {
                 },
                 destroy: function (e) {
                     var scrollView = $("#PictureView").data("kendoMobileScrollView"),
-					page = scrollView.page,
-					fieldName = moduleApp.viewModel.clickedImageFieldName,
-					selectedPage = $(scrollView.wrapper).find("[data-role='page']")[scrollView.page],
-					selectedImageId = $(selectedPage).find('img').attr('data-field-id');
+                    page = scrollView.page,
+                    fieldName = moduleApp.viewModel.clickedImageFieldName,
+                    selectedPage = $(scrollView.wrapper).find("[data-role='page']")[scrollView.page],
+                    selectedImageId = $(selectedPage).find('img').attr('data-field-id');
 
                     if (page !== 'NaN' && fieldName !== undefined && fieldName !== '') {
                         var value = $.grep(moduleApp.viewModel.item.get(fieldName), function (n, i) {
@@ -868,7 +868,7 @@ ModuleApp.prototype = {
                 },
                 get: function () {
                     var item = this.item,
-					src = item[this.clickedImageFieldName];
+                    src = item[this.clickedImageFieldName];
                     return src ? src : kendo.observable([]);
                 },
                 clickedImage: function (e) {
@@ -881,8 +881,8 @@ ModuleApp.prototype = {
                 slideShow: function (e) {
                     moduleApp.viewModel.image.previousUrl.set('done', window.location.hash);
                     var item = moduleApp.viewModel.get('item'),
-					fieldName = $(e.currentTarget).parent().parent().attr('data-field-name'),
-					footerVisibility = $(e.currentTarget).parent().parent().attr('data-field-footer');
+                    fieldName = $(e.currentTarget).parent().parent().attr('data-field-name'),
+                    footerVisibility = $(e.currentTarget).parent().parent().attr('data-field-footer');
 
                     this.clickedImageFieldName = fieldName;
                     this.set('imageFieldSource', this.item.get(this.clickedImageFieldName));
@@ -898,7 +898,7 @@ ModuleApp.prototype = {
                         if (item[fieldName]) {
                             $.when(that.app.navigate('#tabstrip-gallery-slideshow')).done(function () {
                                 var template = kendo.template($("#slideshowViewTemplate").html()),
-								content = kendo.render(template, item[fieldName]);
+                                content = kendo.render(template, item[fieldName]);
                                 if (typeof $("#PictureView").data("kendoMobileScrollView") === "object") {
                                     var scrollView = $("#PictureView").data("kendoMobileScrollView");
                                     scrollView.content($.trim(content));
@@ -909,8 +909,8 @@ ModuleApp.prototype = {
                                 }
                                 else {
                                     var scrollView = $("#PictureView")
-									.kendoMobileScrollView()
-									.data("kendoMobileScrollView");
+                                    .kendoMobileScrollView()
+                                    .data("kendoMobileScrollView");
                                     scrollView.content($.trim(content));
                                     var pageIndex = $("#PictureView>div [data-role='page']>[data-field-id='" + e.data.ChildItemId + "']").index("#PictureView>div [data-role='page']>img");
                                     pageIndex = pageIndex ? pageIndex : 0;
@@ -1003,12 +1003,12 @@ ModuleApp.prototype = {
                             moduleApp.viewModel.item.set(fieldName, new kendo.data.ObservableArray([]));
                             moduleApp.viewModel.item.get(fieldName).push(currentField);
                             moduleApp.viewModel.set('imageFieldSource',
-													moduleApp.viewModel.item.get(moduleApp.viewModel.clickedImageFieldName));
+                                                    moduleApp.viewModel.item.get(moduleApp.viewModel.clickedImageFieldName));
                         }
                         else {
                             moduleApp.viewModel.item.get(fieldName).push(currentField);
                             moduleApp.viewModel.set('imageFieldSource',
-													moduleApp.viewModel.item.get(moduleApp.viewModel.clickedImageFieldName));
+                                                    moduleApp.viewModel.item.get(moduleApp.viewModel.clickedImageFieldName));
                             moduleApp.viewModel.item.dirty = true;
                         }
                     }
@@ -1031,8 +1031,8 @@ ModuleApp.prototype = {
                         e.preventDefault();
                         ShowLoading();
                         var taxonId = e.dataItem.Id,
-						fieldName = e.dataItem.TaxonomyName,
-						values = moduleApp.viewModel.item.get(fieldName);
+                        fieldName = e.dataItem.TaxonomyName,
+                        values = moduleApp.viewModel.item.get(fieldName);
                         moduleApp.repository.clearTagsCache();
                         if ($.inArray(taxonId, values) === -1) {
                             values.push(taxonId);
@@ -1067,7 +1067,7 @@ ModuleApp.prototype = {
                     destroy: function (e) {
                         e.preventDefault();
                         var id = $(e.currentTarget).attr('data-field-taxonid'),
-						fieldName = $(e.currentTarget).attr('data-field-name');
+                        fieldName = $(e.currentTarget).attr('data-field-name');
 
                         var value = $.grep(moduleApp.viewModel.item.get(fieldName), function (val, i) {
                             return val !== id;
@@ -1093,7 +1093,7 @@ ModuleApp.prototype = {
                 hierarchical: {
                     get: function (fieldName) {
                         var item = this.get('item'),
-						id = item[fieldName];
+                        id = item[fieldName];
 
                         var hierarchicalTaxonService = this.userData.website + '/Sitefinity/Services/Taxonomies/HierarchicalTaxon.svc/' + id + '/?mode=Simple&hierarchyMode=true&sortExpression=Title'
 
@@ -1112,7 +1112,7 @@ ModuleApp.prototype = {
             },
             getMediaDataSource: function (fieldName) {
                 var item = this.get('item'),
-				src = item[fieldName];
+                src = item[fieldName];
 
                 return src ? src : kendo.observable([]);
             },
@@ -1156,7 +1156,7 @@ ModuleApp.prototype = {
 
     loadApplication: function (userData, moduleApp, providerName, callback, onerror) {
         var that = this,
-		repositoryName = moduleApp.EverliveAPIKey ? 'everlive' : 'sitefinity';
+        repositoryName = moduleApp.EverliveAPIKey ? 'everlive' : 'sitefinity';
 
         if (moduleApp.GoogleAPIKey && !that.googleScriptLoaded) {
             that.googleAPIKey = moduleApp.GoogleAPIKey;
@@ -1194,9 +1194,9 @@ ModuleApp.prototype = {
             that.app.hideLoading();
         }, function () {
             showAlert(
-				'Error logging out!',
-				'Log In'
-				);
+                'Error logging out!',
+                'Log In'
+                );
         });
     },
 
@@ -1218,54 +1218,54 @@ ModuleApp.prototype = {
 
     bindMaster: function (type) {
         var that = this,
-		eventName,
-		dataSource = this.repository.getTypeDataSource(that, type, function (e) {
-		    switch (e.type) {
-		        case 'read':
-		            eventName = 'afterRead';
-		            break;
-		        case 'create':
-		            that.viewModel.item.accept(e.response.Item);
-		            that.app.navigate('#tabstrip-master-view');
-		            eventName = 'afterCreate';
-		            break;
-		        case 'update':
-		            that.viewModel.item.accept(e.response.Item);
-		            that.app.navigate('#tabstrip-master-view');
-		            eventName = 'afterUpdate';
-		            break;
-		        case 'destroy':
-		            that.app.navigate('#tabstrip-master-view');
-		            eventName = 'afterDelete';
-		            break;
-		    }
-		    that.Events._raiseEvent(eventName, e.response);
-		    that.app.hideLoading();
-		}, function (e) {
-		    var errorMessage = that.errorMasterViewDataSource + e.errorThrown;
-		    if (e.xhr.status == 403 || e.xhr.status == 401) {
-		        errorMessage = that.errorMessage403;
-		        that.userData.accessToken = '';
-		        that.app.navigate('#tabstrip-home');
-		    }
-		    that.app.hideLoading();
-		    showAlert(
-				errorMessage,
-				'Log In'
-				);
-		});
+        eventName,
+        dataSource = this.repository.getTypeDataSource(that, type, function (e) {
+            switch (e.type) {
+                case 'read':
+                    eventName = 'afterRead';
+                    break;
+                case 'create':
+                    that.viewModel.item.accept(e.response.Item);
+                    that.app.navigate('#tabstrip-master-view');
+                    eventName = 'afterCreate';
+                    break;
+                case 'update':
+                    that.viewModel.item.accept(e.response.Item);
+                    that.app.navigate('#tabstrip-master-view');
+                    eventName = 'afterUpdate';
+                    break;
+                case 'destroy':
+                    that.app.navigate('#tabstrip-master-view');
+                    eventName = 'afterDelete';
+                    break;
+            }
+            that.Events._raiseEvent(eventName, e.response);
+            that.app.hideLoading();
+        }, function (e) {
+            var errorMessage = that.errorMasterViewDataSource + e.errorThrown;
+            if (e.xhr.status == 403 || e.xhr.status == 401) {
+                errorMessage = that.errorMessage403;
+                that.userData.accessToken = '';
+                that.app.navigate('#tabstrip-home');
+            }
+            that.app.hideLoading();
+            showAlert(
+                errorMessage,
+                'Log In'
+                );
+        });
         this.viewModel.set("dataSource", dataSource);
         dataSource.one("change",
-					   function () {
-					       that.app.navigate('#tabstrip-master-view');
-					       that.viewModel.dataSource.sync();
-					   });
+                       function () {
+                           that.app.navigate('#tabstrip-master-view');
+                           that.viewModel.dataSource.sync();
+                       });
         dataSource.read();
     },
 
     getModel: function (type) {
         var blankItem = JSON.parse(type.BlankItem),
-		model = { 'id': 'Id', '_defaultId': this.emptyGuid, fields: {} };
+        model = { 'id': 'Id', '_defaultId': this.emptyGuid, fields: {} };
         for (field in blankItem) {
             model.fields[field] = { 'defaultValue': blankItem[field] };
         }
@@ -1274,11 +1274,11 @@ ModuleApp.prototype = {
 
     getFieldViewTemplate: function (field) {
         var templateId,
-		template = '';
+        template = '';
         if (field.ArtificialField)
             return '';
         if (field.Name === this.viewModel.type.MainShortTextFieldName &&
-			this.fieldsViewTemplatesMapping['MainShortText']) {
+            this.fieldsViewTemplatesMapping['MainShortText']) {
             templateId = this.fieldsViewTemplatesMapping['MainShortText'];
             template = kendo.Template.compile($('#' + templateId).html())(field);
         }
@@ -1294,11 +1294,11 @@ ModuleApp.prototype = {
 
     getFieldEditTemplate: function (field) {
         var templateId,
-		template = '';
+        template = '';
         if (field.ArtificialField)
             return '';
         if (field.Name === this.viewModel.type.MainShortTextFieldName &&
-			this.fieldsEditTemplatesMapping['MainShortText']) {
+            this.fieldsEditTemplatesMapping['MainShortText']) {
             templateId = this.fieldsEditTemplatesMapping['MainShortText'];
             template = kendo.Template.compile($('#' + templateId).html())(field);
         }
@@ -1315,8 +1315,8 @@ ModuleApp.prototype = {
 
     addFieldValidation: function (template, field) {
         var element = $('<div>').append($(template)),
-		validationElement = element.find('[data-validation]'),
-		pattern = '';
+        validationElement = element.find('[data-validation]'),
+        pattern = '';
         if (validationElement && validationElement.length) {
             if (field.IsRequired) {
                 validationElement.attr('required', 'required');
@@ -1387,13 +1387,13 @@ ModuleApp.prototype = {
     /* Address Field*/
     showInMap: function (fieldName, draggable) {
         var that = this,
-		mapCanvas = $('#map_canvas'),
-		map = mapCanvas.gmap('get', 'map'),
-		item = that.viewModel.get('item'),
-		address = item[fieldName],
-		latlng = new google.maps.LatLng(0, 0),
-		latitudeField = this.repository.latitudeField,
-		longitudeField = this.repository.longitudeField;
+        mapCanvas = $('#map_canvas'),
+        map = mapCanvas.gmap('get', 'map'),
+        item = that.viewModel.get('item'),
+        address = item[fieldName],
+        latlng = new google.maps.LatLng(0, 0),
+        latitudeField = this.repository.latitudeField,
+        longitudeField = this.repository.longitudeField;
 
         if (address[latitudeField] && address[longitudeField]) {
             latlng = new google.maps.LatLng(address[latitudeField], address[longitudeField]);
@@ -1450,14 +1450,14 @@ ModuleApp.prototype = {
         var mapImg = '';
         if (fieldName && this.googleScriptLoaded) {
             var item = this.viewModel.get('item'),
-			address = item[fieldName],
-			latitudeField = this.repository.latitudeField,
-			longitudeField = this.repository.longitudeField;
+            address = item[fieldName],
+            latitudeField = this.repository.latitudeField,
+            longitudeField = this.repository.longitudeField;
 
             if (address) {
                 if (address[latitudeField] === null || address[longitudeField] === null || address[latitudeField] === "" || address[longitudeField] === "") {
                     var lat = 0,
-					lng = 0;
+                    lng = 0;
                     if (moduleApp.position) {
                         lat = moduleApp.position.coords.latitude ? moduleApp.position.coords.latitude : 0;
                         lng = moduleApp.position.coords.longitude ? moduleApp.position.coords.longitude : 0;
@@ -1509,6 +1509,12 @@ ModuleApp.prototype = {
             });
         }
     },
+    
+    onSwipe: function(e) {
+        debugger;
+        Console.log("swipe " + e.direction);
+    }, 
+    
 
     /* Settings */
     goToSettings: function () {
@@ -1518,7 +1524,7 @@ ModuleApp.prototype = {
 
     getAllowAccessSettings: function (applicationId) {
         var allowAccessObject = null,
-		allowAccessValue = localStorage.getItem(applicationId);
+        allowAccessValue = localStorage.getItem(applicationId);
 
         if (allowAccessValue) {
             try {
@@ -1552,7 +1558,7 @@ ModuleApp.prototype = {
 
     setAllowAccessSettings: function (applicationId) {
         var that = this,
-		allowAccessControlString = JSON.stringify(that.viewModel.allowAccess);
+        allowAccessControlString = JSON.stringify(that.viewModel.allowAccess);
 
         localStorage.setItem(applicationId, allowAccessControlString);
     },
@@ -1564,10 +1570,10 @@ ModuleApp.prototype = {
 
     getChoiceText: function (value, fieldName) {
         var text = value,
-		choices = [],
-		field = $.grep(this.viewModel.type.Fields, function (item, index) {
-		    return item.Name === fieldName;
-		});
+        choices = [],
+        field = $.grep(this.viewModel.type.Fields, function (item, index) {
+            return item.Name === fieldName;
+        });
 
         if (field && field.length > 0) {
             field = field[0];
@@ -1672,7 +1678,7 @@ kendo.data.binders.choicesCheckBoxBinding = kendo.data.Binder.extend({
         kendo.data.Binder.fn.init.call(this, element, bindings, options);
 
         var that = this,
-		element = $(this.element);
+        element = $(this.element);
         //listen for the change event of the element
         element.on("change", function () {
             that.change(); //call the change function
@@ -1690,10 +1696,10 @@ kendo.data.binders.choicesCheckBoxBinding = kendo.data.Binder.extend({
     },
     refresh: function () {
         var binding = this.bindings['choicesCheckBoxBinding'],
-		src = binding.source,
-		element = $(this.element),
-		pathArr = [],
-		value, text, currentSwitch, checkBox;
+        src = binding.source,
+        element = $(this.element),
+        pathArr = [],
+        value, text, currentSwitch, checkBox;
 
         if (binding.path) {
             pathArr = binding.path.split('.');
@@ -1754,10 +1760,10 @@ kendo.data.binders.choicesCheckBoxBinding = kendo.data.Binder.extend({
     },
     change: function () {
         var binding = this.bindings['choicesCheckBoxBinding'],
-		src = binding.source,
-		pathArr = [],
-		element = $(this.element),
-		values, choiceValue, parent, path;
+        src = binding.source,
+        pathArr = [],
+        element = $(this.element),
+        values, choiceValue, parent, path;
 
         if (element.is('ul')) {
             values = [];
@@ -1805,10 +1811,10 @@ kendo.data.binders.choicesDropDownBinding = kendo.data.Binder.extend({
     },
     refresh: function () {
         var binding = this.bindings['choicesDropDownBinding'],
-		src = binding.source,
-		element = $(this.element),
-		pathArr = [],
-		value, text, parent;
+        src = binding.source,
+        element = $(this.element),
+        pathArr = [],
+        value, text, parent;
 
         if (binding.path) {
             pathArr = binding.path.split('.');
@@ -1848,11 +1854,11 @@ kendo.data.binders.choicesDropDownBinding = kendo.data.Binder.extend({
     },
     change: function () {
         var element = $(this.element),
-		value = element.val(),
-		binding = this.bindings['choicesDropDownBinding'],
-		src = binding.source,
-		pathArr = [],
-		path, parent;
+        value = element.val(),
+        binding = this.bindings['choicesDropDownBinding'],
+        src = binding.source,
+        pathArr = [],
+        path, parent;
 
         if (element.is('select')) {
             if (binding.path) {
@@ -1896,15 +1902,15 @@ kendo.data.binders.dateTimeBinding = kendo.data.Binder.extend({
             if (minDateValidation) {
                 var minDateString = minDateValidation.split("/");
                 options.min = new Date(parseInt(minDateString[2]),
-									   parseInt(minDateString[1]) - 1,
-									   parseInt(minDateString[0]), 0, 0, 0, 0);
+                                       parseInt(minDateString[1]) - 1,
+                                       parseInt(minDateString[0]), 0, 0, 0, 0);
             }
             var maxDateValidation = $(this.element).attr("maxdate");
             if (maxDateValidation) {
                 var maxDateString = maxDateValidation.split("/");
                 options.max = new Date(parseInt(maxDateString[2]),
-									   parseInt(maxDateString[1]) - 1,
-									   parseInt(maxDateString[0]), 0, 0, 0, 0);
+                                       parseInt(maxDateString[1]) - 1,
+                                       parseInt(maxDateString[0]), 0, 0, 0, 0);
             }
             $(this.element).kendoDateTimePicker(options);
         }
@@ -1995,21 +2001,21 @@ kendo.data.binders.flatTaxonBinding = kendo.data.Binder.extend({
             }
         }
         var value = '',
-		element = $(this.element),
-		classification = element.attr('data-field-classification');
+        element = $(this.element),
+        classification = element.attr('data-field-classification');
         if (src && classification) {
             moduleApp.viewModel.taxonomy.flat.getData(path, classification, function (data) {
                 var content = '';
                 element.empty();
                 if (element.is('span')) {
                     var template = kendo.template($("#flatTaxonViewTemplate").html()),
-					content = kendo.render(template, data);
+                    content = kendo.render(template, data);
                     element.append(content);
                     kendo.bind(element.children(), moduleApp.viewModel);
                 }
                 else {
                     var template = kendo.template($("#flatTaxonEditTemplate").html()),
-					content = kendo.render(template, data);
+                    content = kendo.render(template, data);
                     element.append(content);
                     kendo.bind(element.children(), moduleApp.viewModel);
                 }
@@ -2021,10 +2027,10 @@ kendo.data.binders.flatTaxonBinding = kendo.data.Binder.extend({
 kendo.data.binders.imageSource = kendo.data.Binder.extend({
     refresh: function () {
         var binding = this.bindings['imageSource'],
-		source = binding.source,
-		attribute = binding.path,
-		element = $(this.element),
-		src = moduleApp.repository.getCachedImageThumbnailUri(source);
+        source = binding.source,
+        attribute = binding.path,
+        element = $(this.element),
+        src = moduleApp.repository.getCachedImageThumbnailUri(source);
 
         if (src) {
             element.attr(attribute, src);
@@ -2040,9 +2046,9 @@ kendo.data.binders.imageSource = kendo.data.Binder.extend({
 kendo.data.binders.documentSource = kendo.data.Binder.extend({
     refresh: function () {
         var binding = this.bindings['documentSource'],
-		src = binding.source,
-		attribute = binding.path,
-		element = $(this.element);
+        src = binding.source,
+        attribute = binding.path,
+        element = $(this.element);
 
         moduleApp.repository.loadDocument(src, moduleApp.userData.website, function (src) {
             if (attribute == 'href')
@@ -2132,7 +2138,7 @@ kendo.data.binders.yasNoBinding = kendo.data.Binder.extend({
         kendo.data.Binder.fn.init.call(this, element, bindings, options);
 
         var that = this,
-		element = $(this.element);
+        element = $(this.element);
         //listen for the change event of the element
         element.on("change", function () {
             that.change(); //call the change function
@@ -2150,9 +2156,9 @@ kendo.data.binders.yasNoBinding = kendo.data.Binder.extend({
     },
     refresh: function () {
         var binding = this.bindings['yasNoBinding'],
-		src = binding.source,
-		element = $(this.element),
-		pathArr = [];
+        src = binding.source,
+        element = $(this.element),
+        pathArr = [];
 
         if (binding.path) {
             pathArr = binding.path.split('.');
@@ -2192,10 +2198,10 @@ kendo.data.binders.yasNoBinding = kendo.data.Binder.extend({
     },
     change: function () {
         var binding = this.bindings['yasNoBinding'],
-		src = binding.source,
-		pathArr = [],
-		element = $(this.element),
-		value, parent, path;
+        src = binding.source,
+        pathArr = [],
+        element = $(this.element),
+        value, parent, path;
 
         if (element.is('li')) {
             value = element.find("input:checkbox").data("kendoMobileSwitch").check();

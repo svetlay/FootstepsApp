@@ -59,28 +59,30 @@
                 class="content-items-list"
                 >
             </ul>
+
         </div>
 
         <script>
             window.myTouch = {
                 touchstart: function(e) {
-                    kendoConsole.log("touch start");
                 },
                 swipe: function(e) {
-                    Console.log("swipe " + e.direction);
+                    if (e.direction == "right") {
+                        e.touch.target.animate({left:'100px','background-color':'white'});
+                    }
+                    if (e.direction == "left") {
+                        e.touch.target.animate({left:'0px','background-color':'transparent'});
+                    }
                 },
                 tap: function(e) {
-                    kendoConsole.log("tap");
                 },
                 doubletap: function(e) {
-                    kendoConsole.log("double tap");
                 },
                 hold: function(e) {
-                    kendoConsole.log("hold");
                 }
             }
         </script>
-                    
+            
         <div data-role="view" id="tabstrip-details-view"  data-title="Item details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar">
@@ -89,7 +91,7 @@
             
                     </a>
                     <a data-role="button"  data-align="right" data-bind="click: edit, visible: isEditable" data-icon="compose">
-                    
+
                     </a>
                 </div>
             </div>
@@ -103,7 +105,7 @@
                 </li>
             </ul>
         </div>
-                    
+            
         <div data-role="view" id="tabstrip-edit-view" data-init="moduleApp.viewModel.editorViewInit" data-before-show="moduleApp.viewModel.editViewBeforeShow" data-title="Edit details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar">
@@ -129,7 +131,7 @@
                 </li>
             </ul>
         </div>
-            
+                
         <!--- html editor view -->
         <div data-role="view" id="tabstrip-edit-longTextField" data-model="moduleApp.viewModel" class="editor-view">
             <div data-role="header">
@@ -170,7 +172,7 @@
                 </li>
             </ul>
         </div>
-                
+                    
         <div data-role="view" id="tabstrip-settings" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -205,7 +207,7 @@
                 </ul>
             </div>
         </div>
-                        
+                            
         <div data-role="view" id="tabstrip-gallery" data-model="moduleApp.viewModel" data-title="Gallery">
             <div data-role="header">
                 <div data-role="navbar">
@@ -237,7 +239,7 @@
                 </li>
             </ul>
         </div>
-            
+                
         <div data-role="view" id="tabstrip-gallery-slideshow" data-title="Photo Gallery" data-model="moduleApp.viewModel" class="slideshow-view">
             <div data-role="header">
                 <div data-role="navbar">
@@ -260,13 +262,13 @@
                 </li>
             </ul>
         </div>
-                    
+            
         <div data-role="view" id="tabstrip-library" data-model="moduleApp.Files.Documents">
             <div>
                 <img data-bind="visible: isVisible, attr: { src: documentSource }" />
             </div>
         </div>
-            
+                
         <div data-role="view" id="edit-document" data-title="Details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -280,7 +282,7 @@
                 <a data-bind="click: deleteDocument" data-role="button" data-rel="actionsheet" href="#itemActions" class="open-actions">Delete</a>
             </div>
         </div>
-            
+                    
         <div data-role="view" id="add-document" data-title="Details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -292,7 +294,7 @@
             </div>
             <div data-bind="source: getDocumentsSource, click: addDocument" data-template="documentAddTemplate"></div>
         </div>
-            
+                
         <div data-role="view" id="tabstrip-map" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -306,7 +308,7 @@
                 <div id="map_canvas" style="width:100%;height:100%"></div>
             </div>
         </div>
-            
+                    
         <div data-role="view" id="tabstrip-edit-address" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -342,7 +344,7 @@
                 </li>
             </ul>
         </div>
-            
+                
         <div data-role="view" id="tabstrip-flat-taxon" data-model="moduleApp.viewModel.taxonomy.flat">
             <div data-role="header">
                 <div data-role="navbar">
@@ -370,7 +372,7 @@
                 </ul>
             </div>
         </div>
-                
+            
         <!-- templates -->
         <script type="text/x-kendo-tmpl" id="typesTemplate">
             <li data-bind="click: bindMasterView">
@@ -385,27 +387,37 @@
                 </span>
             </li>
         </script>
-            
-        <script type="text/x-kendo-tmpl" id="masterViewTemplate">
-            <img src="http://quantum.sitefinity.com/images/users/greg.tmb-.jpg?sfvrsn=2" class="user-icon"/>
-            <b class="content-item-name">#= moduleApp.getMainShortText(data)#
         
-            </b>   
-            # if (moduleApp.mode == 0) { # 
-                <span class="content-item-distance">< #= Math.ceil(Distance) #km away</span> 
-            # } #
-            # if (!moduleApp.viewModel.application.EverliveAPIKey && data.Name) { # 
-                <span class="content-item-date">Published by #= Name.PersistedValue #</span>
-            # }
+        <script type="text/x-kendo-tmpl" id="masterViewTemplate">
+            <div class="swipe-container">
                 
-            #
-            <span class="item-details-btn" data-option="getDetails">View item</span>
-        </script>
+                <div   data-role="touch"
+                       data-enable-swipe="1"
+                       data-touchstart="myTouch.touchstart"
+                       data-swipe="myTouch.swipe" class="swipe-list-item">
+                    <div class="swipe-list-item-inner">
+                        <img src="http://quantum.sitefinity.com/images/users/greg.tmb-.jpg?sfvrsn=2" class="user-icon"/>
+                        <b class="content-item-name">#= moduleApp.getMainShortText(data)#
             
+                        </b>   
+                        # if (moduleApp.mode == 0) { # 
+                            <span class="content-item-distance">< #= Math.ceil(Distance) #km away</span> 
+                        # } #
+                        # if (!moduleApp.viewModel.application.EverliveAPIKey && data.Name) { # 
+                            <span class="content-item-date">Published by #= Name.PersistedValue #</span>
+                        # }
+                        
+                        #
+                        <span class="item-details-btn" data-option="getDetails">View item</span>
+                    </div>
+                </div>
+            </div>
+        </script>
+                        
         <script id="viewTemplate" type="text/x-kendo-template">
             <ul class="view-item-list">
                 # var field;
-            
+                        
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldViewTemplate(field) #
@@ -414,30 +426,30 @@
                 #
             </ul>
         </script>
-            
+
         <script id="editTemplate" type="text/x-kendo-template">
             <ul class="edit-item-list">
                 # var field;
-            
+                
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldEditTemplate(field) #
                 # }
-               
+            
                 #
             </ul>
         </script>
-        
+
         <script type="text/x-kendo-tmpl" id="tagsPreviewTemplate">
             #if (Id !== undefined) {#
                 <b class="content-item-name" data-field-taxonid="#= Id#
                    " data-field-taxonomy-name="#= Title#
                    " data-bind="click: taxonomy.flat.setSelected">#= data.Name ? data.Name : data.Title#</b>
             #}
-        
+            
             #
         </script>
-            
+        
         <!-- field templates -->
         <!-- view templates -->
         <!-- main short text -->
@@ -475,7 +487,7 @@
         <script id="dateTimeViewTemplate" type="text/x-kendo-template">
             <li class="date-fld non-txt-fld">
                 <b>#= Title #:</b> <span data-bind="dateTimeBinding: item.#= Name #
-            
+        
                                          "></span>
             </li>
         </script>
@@ -524,14 +536,14 @@
                     </li>
                     #break;
             }
-        
+                
             #
         </script>
         <!-- classification -->
         <script id="classificationViewTemplate" type="text/x-kendo-template">
             <li class="tag-fld">
                 <b>#= Title #:</b> <span data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-bind="flatTaxonBinding: item.#= Name#
-                      
+            
                                          "></span>
             </li>
         </script>
@@ -574,10 +586,10 @@
                     </li>
                     #break;
             }
-        
+                
             #
         </script>
-
+                      
         <!-- images view templates-->
         <script id="imageViewTemplate" type="text/x-kendo-template">
             <div class="img-wrp">
@@ -588,14 +600,14 @@
         <script id="slideshowViewTemplate" type="text/x-kendo-template"><div data-role="page" class="img-wrp">
             <img src="#= moduleApp.viewModel.image.getCachedUri(data)#" data-bind="imageSource: src" data-field-id="#= data.ChildItemId || data.FileId#"/>
         </div></script>
-                
+        
         <!-- documents view templates-->
         <script id="documentViewTemplate" type="text/x-kendo-template">
             <div class="doc-wrp">
                 <a data-bind="documentSource: text, click: bindDocumentDetailView"></a>
             </div>
         </script>
-                
+            
         <!-- documents edit templates-->
         <script id="documentEditTemplate" type="text/x-kendo-template">
             <div class="doc-wrp">
@@ -610,7 +622,7 @@
                 <label class="item-lbl">#= name #</label>
             </div>
         </script>
-                
+        
         <!-- edit templates -->
         <script id="mainShortTextEditTemplate" type="text/x-kendo-template">
             <li class="txt-short-fld">
@@ -646,7 +658,7 @@
             <li class="date-fld">
                 <label class="item-lbl">#= Title #</label>
                 <input name="#= Name #" readonly data-bind="dateTimeBinding: item.#= Name #
-                    
+            
                        " data-format="dd MMM yyyy HH:mm" data-validation/>
             </li>
         </script>
@@ -722,7 +734,7 @@
                     </li>
                     #break;
             }
-            
+                
             #
         </script>
         <!--  flat taxon view template --->
@@ -753,3 +765,4 @@
         </script>
     </body>
 </html>
+            

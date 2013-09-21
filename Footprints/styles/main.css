@@ -369,6 +369,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .km-navbar
 {
     background-color: #6ba338;
+    opacity: 80%;
+
+
+
+
     background-image: none;
 }
 #mobileApp.km-android .km-navbar
@@ -701,19 +706,50 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 #mobileApp .content-items-list > li
 {
-    padding: 1rem 1rem;
+   
     box-shadow: 1px 1px 1px #c1c1c1;
     background-color: white;
     
-    border-left: 6px solid #6ba338;
-    line-height: .8em;
+    background: #fff url(../img/item.png) no-repeat 0 0;
+    height:80px;
     font-size: 1.4em;
-    background-image: none;
+   
     position: relative;
-    top: 10px;
+   
     -webkit-transform: none !important;
     margin-top: 12px;
+    padding: 0;
+
 }
+
+
+#mobileApp .content-items-list > li div.swipe-list-item
+{
+    position:relative;
+    background-color:transparent;
+    
+    
+}
+
+#mobileApp .content-items-list > li div.swipe-list-item-inner
+{
+       margin: 1rem 1rem;
+}
+
+#mobileApp .content-items-list > li div.swipe-container
+{
+   
+    position:absolute;
+    left:5px;
+    z-index:3;
+ 
+    
+
+
+}
+
+
+
 
 #mobileApp .content-items-list > li .item-details-btn
 {
