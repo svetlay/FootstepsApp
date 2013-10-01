@@ -59,6 +59,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .km-load-more
 {
     padding-top: 1rem;
+    display: none;
 }
 /* Buttons */
 #mobileApp .km-button
@@ -296,6 +297,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     box-shadow: none;
     color: white;
     width: 25px;
+    height: 40px;
 }
 
 #mobileApp .logo
@@ -325,9 +327,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 .login-scrn .km-listinset, .btn-wrp
 {
-    float: left;
-    margin-top: 230px;
-    margin-left: 30px;
+    float: right;
 }
 
 .login-scrn .km-button
@@ -350,11 +350,19 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .km-android .login-scrn .km-list > li
 {
     color: #000;
-    border-bottom: 1px solid #e0e0e0;
+    border-bottom: 0;
+    background-color: #fff;
+    padding: 0;
+    height: 30px;
+    line-height: 30px;
+    padding: 0;
 }
 #mobileApp .login-scrn .km-list > li
 {
     background-color: #fff;
+    padding: 0;
+    height: 40px;
+    line-height: 30px;
 }
 .km-android .login-scrn .km-list label
 {
@@ -363,16 +371,14 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .login-scrn .km-list > li input
 {
     position: static;
-    padding: 0;
+    margin: 5px;
+    height: 30px;
 }
 /* Header */
 #mobileApp .km-navbar
 {
     background-color: #6ba338;
     opacity: 80%;
-
-
-
 
     background-image: none;
 }
@@ -571,7 +577,6 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .search-bar-wrp
 {
     padding: 1rem;
-    background-color: #E9E9E9;
 }
 .search-bar-wrp .search-btn
 {
@@ -598,8 +603,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     width: 11rem;
     border: 0;
-    margin-left: 1.5rem;
+    margin-left: 2rem;
     margin-right: 1.5rem;
+    margin-top: 0;
+    margin-bottom: 0;
+    height: 1.8rem;
 }
 #mobileApp.km-android .search-input-wrp input[type="input"]
 {
@@ -623,26 +631,30 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     display: block;
     position: absolute;
-    top: .35rem;
-    right: .5rem;
+    top: 0.1rem;
+    right: 0;
     padding: 0;
-    width: 1.3rem;
-    height: 1.3rem;
+    width: 30px;
+    height: 30px;
     line-height: 1rem;
     background: transparent url(../img/clear.png) no-repeat 0 0;
-    background-size: cover;
     border: 0;
     text-indent: -9999px;
 }
 /* Filter button group */
-.filter-group-wrp
+#mobileApp .filter-group-wrp .km-button
 {
-    background-color: #e4e4e4;
+    color: #282828
 }
 .filter-group-wrp .km-button
 {
     min-width: 6rem;
     text-align: center;
+}
+
+#mobileApp .filter-group-wrp  #btnFiterByRecent, #mobileApp .filter-group-wrp #btnFiterByPosition
+{
+    border: 1px solid #c4c4c4;
 }
 #mobileApp .filter-group-wrp .km-button.km-state-active
 {
@@ -682,12 +694,12 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .item-details-btn
 {
     padding: 1rem;
-    top: 0;
-    right: 0;
+
     text-indent: -9999px;
     overflow: hidden;
-    background-size: 1.5rem 1.5rem;
-    background-position: 1rem 1rem;
+    background-size: 20px 40px;
+    height:40px;
+    width:20px;
 }
 .content-types-list .content-type-name
 {
@@ -709,47 +721,72 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
    
     box-shadow: 1px 1px 1px #c1c1c1;
     background-color: white;
+    border: 0;
     
-    background: #fff url(../img/item.png) no-repeat 0 0;
-    height:80px;
+    height: 80px;
     font-size: 1.4em;
    
     position: relative;
    
     -webkit-transform: none !important;
     margin-top: 12px;
+    margin-left: 2%;
+    width: 96%;
     padding: 0;
-
 }
 
+#mobileApp .content-items-list li.km-scroller-refresh
+{
+    height: auto;
+    position: absolute;
+}
 
 #mobileApp .content-items-list > li div.swipe-list-item
 {
-    position:relative;
-    background-color:transparent;
-    
-    
+    position: relative;
+    background-color: white;
+    background-image: url(../img/item.png);
+    background-repeat: no-repeat;
 }
 
 #mobileApp .content-items-list > li div.swipe-list-item-inner
 {
-       margin: 1rem 1rem;
+    padding: 1em 1em;
 }
 
 #mobileApp .content-items-list > li div.swipe-container
 {
-   
-    position:absolute;
-    left:5px;
-    z-index:3;
- 
-    
-
-
+   width: 100%;
+    position: absolute;
+    left: 5px;
+    z-index: 3;
 }
 
+#mobileApp .content-items-list > li .swipe-button{
+   width: 50px;
+    position: absolute;
+    font-size: 20px;
+    line-height:80px;
+    
+}
+
+#mobileApp .content-items-list > li .km-button{
+    text-align:center;
+}
+
+#mobileApp .content-items-list > li .swipe-delete{
+    background-color:#282828;
+    }
 
 
+#mobileApp .content-items-list > li .swipe-location{
+    left: 50px;
+    background-color: #6ba338;6ba338
+    }
+
+element.style {
+}
+Matched CSS Rules
 
 #mobileApp .content-items-list > li .item-details-btn
 {
@@ -1199,4 +1236,10 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .km-android .km-actionsheet>li>span:focus, .km-android .km-actionsheet>li>span:active
 {
     background: #33b5e5;
+}
+
+.km-flat .km-loader, .km-flat .km-rowinsert, .km-flat .km-state-active, .km-flat .km-scroller-pull, .km-flat .k-slider-selection, .km-flat .km-touch-scrollbar, .km-flat .km-pages .km-current-page, .km-flat .k-slider .k-draghandle, .km-flat .k-slider .k-draghandle:hover, .km-flat .km-tabstrip .km-state-active, .km-flat .km-scroller-refresh.km-load-more, .km-flat .km-popup .k-state-hover, .km-flat .km-popup .k-state-focused, .km-flat .km-popup .k-state-selected, .km-flat .km-actionsheet>li>a:active, .km-flat .km-actionsheet>li>a:hover, .km-flat li.km-state-active .km-listview-link, .km-flat li.km-state-active .km-listview-label, .km-flat .km-listview-label input[type=radio]:checked, .km-flat .km-listview-label input[type=checkbox]:checked
+{
+    background-color: #4f4f4f;
+}
 }

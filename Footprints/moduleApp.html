@@ -5,13 +5,18 @@
         <meta charset="utf-8" />
     </head>
     <body id="mobileApp">
-        <!--views-->
+        <!-- tabstrip -->
+        
+        
+        
+        
         <div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
                     <span data-bind="html: application.Name" ></span>
                     <a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
                     </a>
+
                 </div>
             </div>
             <ul
@@ -20,6 +25,26 @@
                 class="content-types-list">
             </ul>
         </div>
+
+        <div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
+            <div data-role="header">
+                <div data-role="navbar" class="left-btn-sep">
+                    <span data-bind="html: application.Name" ></span>
+                    <a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
+                    </a>
+
+                </div>
+            </div>
+            <ul
+                data-template="typesTemplate"
+                data-bind="source: rootTypes"
+                class="content-types-list">
+            </ul>
+        </div>
+
+        
+
+        <!--views-->
 
         <div data-role="view" id="tabstrip-master-view" data-model="moduleApp.viewModel" data-init="moduleApp.viewModel.initPullToRefreshScroller">
             <div data-role="header">
@@ -68,10 +93,13 @@
                 },
                 swipe: function(e) {
                     if (e.direction == "right") {
-                        e.touch.target.animate({left:'100px','background-color':'white'});
+                        e.touch.target.animate({left:'100px'});
+                       
+                     
                     }
                     if (e.direction == "left") {
-                        e.touch.target.animate({left:'0px','background-color':'transparent'});
+                        e.touch.target.animate({left:'0px'});
+                     
                     }
                 },
                 tap: function(e) {
@@ -82,13 +110,13 @@
                 }
             }
         </script>
-            
+
         <div data-role="view" id="tabstrip-details-view"  data-title="Item details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar">
                     <span data-role="view-title"></span>
                     <a data-role="backbutton" data-align="left" data-bind="click: close" class="back-to-app" data-icon="reply">
-            
+
                     </a>
                     <a data-role="button"  data-align="right" data-bind="click: edit, visible: isEditable" data-icon="compose">
 
@@ -105,7 +133,7 @@
                 </li>
             </ul>
         </div>
-            
+
         <div data-role="view" id="tabstrip-edit-view" data-init="moduleApp.viewModel.editorViewInit" data-before-show="moduleApp.viewModel.editViewBeforeShow" data-title="Edit details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar">
@@ -131,7 +159,7 @@
                 </li>
             </ul>
         </div>
-                
+
         <!--- html editor view -->
         <div data-role="view" id="tabstrip-edit-longTextField" data-model="moduleApp.viewModel" class="editor-view">
             <div data-role="header">
@@ -143,7 +171,7 @@
             </div>
             <div id="editor" data-field-name="" class="editor-wrp"></div>
         </div>
-            
+
         <!-- menus -->
         <div id="side-menu" data-role="view" data-model="moduleApp.viewModel" class="side-menu-view">
             <div data-bind="click: closeSideMenu" class="to-all-apps">
@@ -172,7 +200,7 @@
                 </li>
             </ul>
         </div>
-                    
+
         <div data-role="view" id="tabstrip-settings" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -207,7 +235,7 @@
                 </ul>
             </div>
         </div>
-                            
+
         <div data-role="view" id="tabstrip-gallery" data-model="moduleApp.viewModel" data-title="Gallery">
             <div data-role="header">
                 <div data-role="navbar">
@@ -239,7 +267,7 @@
                 </li>
             </ul>
         </div>
-                
+
         <div data-role="view" id="tabstrip-gallery-slideshow" data-title="Photo Gallery" data-model="moduleApp.viewModel" class="slideshow-view">
             <div data-role="header">
                 <div data-role="navbar">
@@ -262,13 +290,13 @@
                 </li>
             </ul>
         </div>
-            
+
         <div data-role="view" id="tabstrip-library" data-model="moduleApp.Files.Documents">
             <div>
                 <img data-bind="visible: isVisible, attr: { src: documentSource }" />
             </div>
         </div>
-                
+
         <div data-role="view" id="edit-document" data-title="Details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -282,7 +310,7 @@
                 <a data-bind="click: deleteDocument" data-role="button" data-rel="actionsheet" href="#itemActions" class="open-actions">Delete</a>
             </div>
         </div>
-                    
+
         <div data-role="view" id="add-document" data-title="Details" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -294,7 +322,7 @@
             </div>
             <div data-bind="source: getDocumentsSource, click: addDocument" data-template="documentAddTemplate"></div>
         </div>
-                
+
         <div data-role="view" id="tabstrip-map" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -308,7 +336,7 @@
                 <div id="map_canvas" style="width:100%;height:100%"></div>
             </div>
         </div>
-                    
+
         <div data-role="view" id="tabstrip-edit-address" data-model="moduleApp.viewModel">
             <div data-role="header">
                 <div data-role="navbar" class="left-btn-sep">
@@ -344,7 +372,7 @@
                 </li>
             </ul>
         </div>
-                
+
         <div data-role="view" id="tabstrip-flat-taxon" data-model="moduleApp.viewModel.taxonomy.flat">
             <div data-role="header">
                 <div data-role="navbar">
@@ -372,14 +400,14 @@
                 </ul>
             </div>
         </div>
-            
+
         <!-- templates -->
         <script type="text/x-kendo-tmpl" id="typesTemplate">
             <li data-bind="click: bindMasterView">
                 <b class="content-type-name">#= Title#</b>
             </li>
         </script>
-            
+
         <script type="text/x-kendo-tmpl" id="typesTemplateSideMenu">
             <li data-bind="click: closeSideMenu">
                 <span data-bind="click: bindMasterView">
@@ -387,16 +415,21 @@
                 </span>
             </li>
         </script>
-        
+
         <script type="text/x-kendo-tmpl" id="masterViewTemplate">
             <div class="swipe-container">
-                
+            <div class="swipe-button swipe-delete ">
+                <a href="" data-role="button" data-icon="delete"></a>
+            </div>
+            <div class="swipe-button swipe-location">
+                <a href="" data-role="button" data-icon="globe"></a>
+            </div>
                 <div   data-role="touch"
                        data-enable-swipe="1"
                        data-touchstart="myTouch.touchstart"
                        data-swipe="myTouch.swipe" class="swipe-list-item">
                     <div class="swipe-list-item-inner">
-                        <img src="http://quantum.sitefinity.com/images/users/greg.tmb-.jpg?sfvrsn=2" class="user-icon"/>
+                        <img src='#= moduleApp.getUserImage(data)#' class="user-icon"/>
                         <b class="content-item-name">#= moduleApp.getMainShortText(data)#
             
                         </b>   
@@ -413,7 +446,7 @@
                 </div>
             </div>
         </script>
-                        
+
         <script id="viewTemplate" type="text/x-kendo-template">
             <ul class="view-item-list">
                 # var field;
@@ -449,7 +482,7 @@
             
             #
         </script>
-        
+
         <!-- field templates -->
         <!-- view templates -->
         <!-- main short text -->
@@ -589,7 +622,7 @@
                 
             #
         </script>
-                      
+
         <!-- images view templates-->
         <script id="imageViewTemplate" type="text/x-kendo-template">
             <div class="img-wrp">
@@ -600,21 +633,21 @@
         <script id="slideshowViewTemplate" type="text/x-kendo-template"><div data-role="page" class="img-wrp">
             <img src="#= moduleApp.viewModel.image.getCachedUri(data)#" data-bind="imageSource: src" data-field-id="#= data.ChildItemId || data.FileId#"/>
         </div></script>
-        
+
         <!-- documents view templates-->
         <script id="documentViewTemplate" type="text/x-kendo-template">
             <div class="doc-wrp">
                 <a data-bind="documentSource: text, click: bindDocumentDetailView"></a>
             </div>
         </script>
-            
+
         <!-- documents edit templates-->
         <script id="documentEditTemplate" type="text/x-kendo-template">
             <div class="doc-wrp">
                 <a data-bind="documentSource: text, click: bindDocumentEditView"></a>
             </div>
         </script>
-            
+
         <!-- documents add templates-->
         <script id="documentAddTemplate" type="text/x-kendo-template">
             <div>
@@ -622,7 +655,7 @@
                 <label class="item-lbl">#= name #</label>
             </div>
         </script>
-        
+
         <!-- edit templates -->
         <script id="mainShortTextEditTemplate" type="text/x-kendo-template">
             <li class="txt-short-fld">
@@ -704,7 +737,7 @@
                     #break;  
             }#
         </script>
-                    
+
         <script id="mediaEditTemplate" type="text/x-kendo-template">
             #switch (MediaType) {
                 case 'image':#

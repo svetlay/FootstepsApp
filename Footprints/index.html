@@ -32,11 +32,14 @@
                 <li>
 
                     <input type="password" id="password" data-bind="value: userData.password" placeholder="Password"  />
+                   <div class="btn-wrp">
+                        <button class="km-button" id="btnLogIn" data-bind="events: {click: logIn}"> </button>
+                    </div>
                 </li>
+                 
+
             </ul>
-            <div class="btn-wrp">
-                <button class="km-button" id="btnLogIn" data-bind="events: {click: logIn}"> </button>
-            </div>
+
         </div>
         <script src="scripts/address.js"></script>
         <script src="scripts/everlive/reqwest.js"></script>
