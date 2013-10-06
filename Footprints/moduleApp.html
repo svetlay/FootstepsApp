@@ -417,7 +417,7 @@
         </script>
 
         <script type="text/x-kendo-tmpl" id="masterViewTemplate">
-            <div class="swipe-container">
+            <div class="swipe-container" data-author="#= Author #">
             <div class="swipe-button swipe-delete ">
                 <a href="" data-role="button" data-icon="delete"></a>
             </div>
@@ -429,7 +429,7 @@
                        data-touchstart="myTouch.touchstart"
                        data-swipe="myTouch.swipe" class="swipe-list-item">
                     <div class="swipe-list-item-inner">
-                        <img src='#= moduleApp.getUserImage(data)#' class="user-icon"/>
+                        <span class='#= moduleApp.getUserImage(data)# user-icon'/>
                         <b class="content-item-name">#= moduleApp.getMainShortText(data)#
             
                         </b>   
