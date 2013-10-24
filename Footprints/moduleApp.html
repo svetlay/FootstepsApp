@@ -6,25 +6,6 @@
     </head>
     <body id="mobileApp">
         <!-- tabstrip -->
-        
-        
-        
-        
-        <div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
-            <div data-role="header">
-                <div data-role="navbar" class="left-btn-sep">
-                    <span data-bind="html: application.Name" ></span>
-                    <a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
-                    </a>
-
-                </div>
-            </div>
-            <ul
-                data-template="typesTemplate"
-                data-bind="source: rootTypes"
-                class="content-types-list">
-            </ul>
-        </div>
 
         <div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
             <div data-role="header">
@@ -42,7 +23,21 @@
             </ul>
         </div>
 
-        
+        <div data-role="view" id="tabstrip-application-types" data-model="moduleApp.viewModel">
+            <div data-role="header">
+                <div data-role="navbar" class="left-btn-sep">
+                    <span data-bind="html: application.Name" ></span>
+                    <a data-align="left" data-bind="click: openSideMenu" class="side-menu" data-role="button">
+                    </a>
+
+                </div>
+            </div>
+            <ul
+                data-template="typesTemplate"
+                data-bind="source: rootTypes"
+                class="content-types-list">
+            </ul>
+        </div>
 
         <!--views-->
 
@@ -94,12 +89,9 @@
                 swipe: function(e) {
                     if (e.direction == "right") {
                         e.touch.target.animate({left:'100px'});
-                       
-                     
                     }
                     if (e.direction == "left") {
                         e.touch.target.animate({left:'0px'});
-                     
                     }
                 },
                 tap: function(e) {
@@ -111,9 +103,9 @@
             }
         </script>
 
-        <div data-role="view" id="tabstrip-details-view"  data-title="Item details" data-model="moduleApp.viewModel">
+        <div data-role="view" id="tabstrip-details-view"  data-title="Item Detail" data-model="moduleApp.viewModel">
             <div data-role="header">
-                <div data-role="navbar">
+                <div data-role="navbar" id="details-navbar">
                     <span data-role="view-title"></span>
                     <a data-role="backbutton" data-align="left" data-bind="click: close" class="back-to-app" data-icon="reply">
 
@@ -417,13 +409,13 @@
         </script>
 
         <script type="text/x-kendo-tmpl" id="masterViewTemplate">
-            <div class="swipe-container" data-author="#= Author #">
-            <div class="swipe-button swipe-delete ">
-                <a href="" data-role="button" data-icon="delete"></a>
-            </div>
-            <div class="swipe-button swipe-location">
-                <a href="" data-role="button" data-icon="globe"></a>
-            </div>
+            <div class="swipe-container" data-status="#= moduleApp.getMainVisitStatus(data) #" data-author="#= Author #">
+                <div class="swipe-button swipe-delete ">
+                    <a href="" data-role="button" data-action="moduleApp.viewModel.destroy" data-icon="delete"></a>
+                </div>
+                <div class="swipe-button swipe-location">
+                    <a href="" data-role="button" data-icon="globe"></a>
+                </div>
                 <div   data-role="touch"
                        data-enable-swipe="1"
                        data-touchstart="myTouch.touchstart"
@@ -431,7 +423,7 @@
                     <div class="swipe-list-item-inner">
                         <span class='#= moduleApp.getUserImage(data)# user-icon'/>
                         <b class="content-item-name">#= moduleApp.getMainShortText(data)#
-            
+                    
                         </b>   
                         # if (moduleApp.mode == 0) { # 
                             <span class="content-item-distance">< #= Math.ceil(Distance) #km away</span> 
@@ -448,27 +440,65 @@
         </script>
 
         <script id="viewTemplate" type="text/x-kendo-template">
+ 
             <ul class="view-item-list">
+                       <div class="time-ago">
+                <div class="time-ago-quantity">
+                    #=  timeSince(moduleApp.viewModel.item.DateCreated)[0] #
+                </div>
+                <div class="time-ago-unit">
+                    #=  timeSince(moduleApp.viewModel.item.DateCreated)[1] #
+                
+                    ago
+                </div>
+            </div>
+            <div class="user-image-detail">
+                <img src="#= moduleApp.authorData["Svetla Yankova"] #" width="80px" height="80px" />
+            </div>
                 # var field;
-                        
+        
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldViewTemplate(field) #
                 # }
-                
+        
                 #
             </ul>
         </script>
 
+        <!--<script id="viewTemplate" type="text/x-kendo-template">
+        <div class="time-ago">
+        <div class="time-ago-quantity">
+        #=  timeSince(moduleApp.viewModel.item.DateCreated)[0] #
+        </div>
+        <div class="time-ago-unit">
+        #=  timeSince(moduleApp.viewModel.item.DateCreated)[1] #
+                
+        ago
+        </div>
+        </div>
+        <ul class="view-item-list">
+                
+        # var field;
+            
+        for (var i = 0; i < type.Fields.length; i++) {
+        field = type.Fields[i];#
+        #= moduleApp.getFieldViewTemplate(field) #
+        # }
+                
+        #
+        </ul>
+        </script> -->
+
         <script id="editTemplate" type="text/x-kendo-template">
             <ul class="edit-item-list">
                 # var field;
-                
+        
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldEditTemplate(field) #
                 # }
-            
+                
                 #
             </ul>
         </script>
@@ -479,7 +509,7 @@
                    " data-field-taxonomy-name="#= Title#
                    " data-bind="click: taxonomy.flat.setSelected">#= data.Name ? data.Name : data.Title#</b>
             #}
-            
+               
             #
         </script>
 
@@ -569,14 +599,14 @@
                     </li>
                     #break;
             }
-                
+            
             #
         </script>
         <!-- classification -->
         <script id="classificationViewTemplate" type="text/x-kendo-template">
             <li class="tag-fld">
                 <b>#= Title #:</b> <span data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-bind="flatTaxonBinding: item.#= Name#
-            
+        
                                          "></span>
             </li>
         </script>
@@ -598,13 +628,17 @@
                     #break;
                 case 1:#
                     <li class="addr-fld">
-                        <b>#= Title #:</b>
+
                         <div data-bind="addressBinding: item.#= Name#
                              , events: {click: address.showInMap}" data-field-name="#= Name#" class="addr-map"></div>
+                        <b>#= Title #:</b>
                     </li>
                     #break;
                 case 2:#
                     <li class="addr-fld">
+
+                        <div data-bind="addressBinding: item.#= Name#
+                             , events:{click: address.showInMap}" data-field-name="#= Name#" class="addr-map"></div>
                         <b>#= Title #:</b>
                         <span data-bind="html: item.#= Name#
                               #= moduleApp.repository.fieldSeparator#City"></span>
@@ -614,12 +648,10 @@
                               #= moduleApp.repository.fieldSeparator#Zip"></span>
                         <span data-bind="html: item.#= Name#
                               #= moduleApp.repository.fieldSeparator#CountryCode"></span>
-                        <div data-bind="addressBinding: item.#= Name#
-                             , events:{click: address.showInMap}" data-field-name="#= Name#" class="addr-map"></div>
                     </li>
                     #break;
             }
-                
+            
             #
         </script>
 
@@ -717,8 +749,7 @@
                         <select data-bind="choicesDropDownBinding: item.#= Name#">
                             # for (var i = 0; i < data.Choices.length; i++) {
                                 var choice = data.Choices[i];#
-                                <option value="#=choice.Value#
-                                        ">#= choice.Text#</option>
+                                <option value="#=choice.Value#">#= choice.Text#</option>
                             # } #
                         </select>
                     </li>
@@ -729,8 +760,7 @@
                         <select data-bind="choicesDropDownBinding: item.#= Name#">
                             # for (var i = 0; i < data.Choices.length; i++) {
                                 var choice = data.Choices[i];#
-                                <option value="#=choice.Value#
-                                        ">#= choice.Text#</option>
+                                <option value="#=choice.Value#">#= choice.Text#</option>
                             # } #
                         </select>
                     </li>
@@ -767,7 +797,7 @@
                     </li>
                     #break;
             }
-                
+            
             #
         </script>
         <!--  flat taxon view template --->
@@ -798,4 +828,4 @@
         </script>
     </body>
 </html>
-            
+        

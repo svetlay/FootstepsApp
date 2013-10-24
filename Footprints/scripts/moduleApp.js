@@ -283,7 +283,6 @@ ModuleApp.prototype = {
             },
             bindMasterView: function (e) {
                 e.preventDefault();
-               
 
                 if (that.viewModel.parentTypeNames.length === 0) {
                     that.viewModel.parentTypeNames.push(moduleApp.viewModel.application.Name);
@@ -316,6 +315,7 @@ ModuleApp.prototype = {
                 }
             },
             bindingMasterView: function (e) {
+               
                 e.sender.items().remove();
                 if (this.refreshScroller) {
                     e.sender._bindScroller();
@@ -364,6 +364,8 @@ ModuleApp.prototype = {
                         });
                     }
                 }
+                
+                $("#details-navbar").data("kendoMobileNavBar").title(e.dataItem.Title.PersistedValue);
             },
             bindHierarchicalTypeDetailsView: function (e) {
                 ShowLoading();
@@ -1160,7 +1162,7 @@ ModuleApp.prototype = {
     loadApplication: function (userData, moduleApp, providerName, callback, onerror) {
         var that = this,
         repositoryName = moduleApp.EverliveAPIKey ? 'everlive' : 'sitefinity';
-
+  
         if (moduleApp.GoogleAPIKey && !that.googleScriptLoaded) {
             that.googleAPIKey = moduleApp.GoogleAPIKey;
             $.getScript('http://maps.google.com/maps/api/js?sensor=true&async=2&callback=moduleApp.mapApiLoaded&key=' + moduleApp.GoogleAPIKey, function () {
@@ -1378,6 +1380,14 @@ ModuleApp.prototype = {
         return value;
     },
     
+        getMainVisitStatus: function (data) {
+        var value = data['VisitStatus'];
+        if (value && value.hasOwnProperty("PersistedValue")) {
+            value = value["PersistedValue"].replace(/(\r\n|\n|\r)/gm,"");
+        }
+        return value;
+    },
+    
     getUserImage: function (data) {
         var url = "http://gartnerpcc.sitefinity.com/sitefinity/services/security/users.svc/" + data["LastModifiedBy"];
         var thumbnailUrl = this.authorData[data["Author"]];
@@ -1392,13 +1402,16 @@ ModuleApp.prototype = {
                 success: function(userData) { 
                     thumbnailUrl = userData.AvatarThumbnailUrl;
                     $('*[data-author="' + author + '"] .user-icon').css('background-image', 'url("' + thumbnailUrl + '")');
+                    moduleApp.authorData[data["Author"]] = thumbnailUrl;
+           
                 }
                 
             
             
             });
         }
-        this.authorData[data["Author"]] = thumbnailUrl;
+        
+        
         
         return thumbnailUrl;
     },
@@ -1501,7 +1514,7 @@ ModuleApp.prototype = {
                 }
                 var zoom = this.repository.addressProp(item, fieldName, 'MapZoomLevel') || 8;
                 // Use Google API to get a map of the current location
-                var googleApis_map_Url = 'http://maps.googleapis.com/maps/api/staticmap?size=290x150&maptype=roadmap&zoom=' + zoom + '&sensor=true&key=' + moduleApp.googleAPIKey + '&markers=color:red%7C' + address[latitudeField] + ',' + address[longitudeField];
+                var googleApis_map_Url = 'http://maps.googleapis.com/maps/api/staticmap?size=150x150&maptype=roadmap&zoom=' + zoom + '&sensor=true&key=' + moduleApp.googleAPIKey + '&markers=color:red%7C' + address[latitudeField] + ',' + address[longitudeField];
                 mapImg = '<img src="' + googleApis_map_Url + '" />';
             }
         }
@@ -2088,6 +2101,7 @@ kendo.data.binders.documentSource = kendo.data.Binder.extend({
 kendo.data.binders.addressBinding = kendo.data.Binder.extend({
     init: function (element, bindings, options) {
         //call the base constructor
+        
         kendo.data.Binder.fn.init.call(this, element, bindings, options);
 
         var that = this;
@@ -2253,6 +2267,34 @@ kendo.data.binders.yasNoBinding = kendo.data.Binder.extend({
         }
     }
 });
+
+function timeSince(date) {
+    var created = new Date(parseInt(date.substr(6)));
+    var seconds = Math.floor(((new Date()) - created) / 1000);
+
+    var interval = Math.floor(seconds / 31536000);
+
+    if (interval > 1) {
+        return [interval , " years"]
+    }
+    interval = Math.floor(seconds / 2592000);
+    if (interval > 1) {
+        return [interval , " months"]
+    }
+    interval = Math.floor(seconds / 86400);
+    if (interval > 1) {
+        return [interval , " days"]
+    }
+    interval = Math.floor(seconds / 3600);
+    if (interval > 1) {
+        return [interval , " hours"]
+    }
+    interval = Math.floor(seconds / 60);
+    if (interval > 1) {
+        return [interval," minutes"]
+    }
+    return [Math.floor(seconds) , " seconds"]
+}
 
 var fileSystem, documentRoot;
 

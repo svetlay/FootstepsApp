@@ -114,9 +114,8 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     height: 40px;
     border-radius: 20px;
     margin-right: 15px;
-    display:block;
+    display: block;
     background-size: 40px 40px
-    
 }
 #mobileApp .btn-save
 {
@@ -612,6 +611,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     margin-top: 0;
     margin-bottom: 0;
     height: 1.8rem;
+    outline: 0;
 }
 #mobileApp.km-android .search-input-wrp input[type="input"]
 {
@@ -702,8 +702,8 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     text-indent: -9999px;
     overflow: hidden;
     background-size: 20px 40px;
-    height:40px;
-    width:20px;
+    height: 40px;
+    width: 20px;
 }
 .content-types-list .content-type-name
 {
@@ -744,13 +744,28 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     height: auto;
     position: absolute;
 }
-
+/*
 #mobileApp .content-items-list > li div.swipe-list-item
 {
     position: relative;
     background-color: white;
     background-image: url(../img/item.png);
     background-repeat: no-repeat;
+}*/
+#mobileApp .content-items-list > li  div.swipe-list-item
+{
+    position: relative;
+    background-color: white;
+    background-image: url(../img/item.png);
+    background-repeat: no-repeat;
+}
+
+
+#mobileApp .content-items-list > li .swipe-container[data-status="2"] div.swipe-list-item
+{
+    
+    background-image: url(../img/item-yellow.png);
+ 
 }
 
 #mobileApp .content-items-list > li div.swipe-list-item-inner
@@ -760,35 +775,46 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 
 #mobileApp .content-items-list > li div.swipe-container
 {
-   width: 100%;
+    width: 100%;
     position: absolute;
     left: 5px;
     z-index: 3;
 }
 
-#mobileApp .content-items-list > li .swipe-button{
-   width: 50px;
+#mobileApp .content-items-list > li .swipe-button
+{
+    width: 50px;
     position: absolute;
     font-size: 20px;
-    line-height:80px;
-    
+    line-height: 80px;
 }
 
-#mobileApp .content-items-list > li .km-button{
-    text-align:center;
+#mobileApp .content-items-list > li .km-button
+{
+    text-align: center;
 }
 
-#mobileApp .content-items-list > li .swipe-delete{
-    background-color:#282828;
-    }
+#mobileApp .content-items-list > li .swipe-delete
+{
+    background-color: #282828;
+}
 
-
-#mobileApp .content-items-list > li .swipe-location{
+#mobileApp .content-items-list > li .swipe-location
+{
     left: 50px;
-    background-color: #6ba338;6ba338
-    }
+    background-color: #6ba338; 
+}
 
-element.style {
+
+#mobileApp .content-items-list > li .swipe-container[data-status="2"] .swipe-location
+{
+    
+    background-color: #e9c546; 
+}
+
+
+element.style
+{
 }
 Matched CSS Rules
 
@@ -892,7 +918,72 @@ Matched CSS Rules
 {
     margin-top: .5em;
     margin-bottom: .3em;
+    padding: 10px;
+    width: 170px;
+    height: 170px;
+    border-radius: 170px;
+    
+    background: rgb(249, 252, 247); /* Old browsers */
+    background: -moz-linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(249, 252, 247, 1)), color-stop(100%, rgba(245, 249, 240, 1))); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* IE10+ */
+    background: linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f9fcf7', endColorstr='#f5f9f0',GradientType=1 ); /* IE6-9 fallback on horizontal gradient */
+    box-shadow: 0 0 1px #bbb inset;
+    
+    margin: auto auto;
 }
+
+.view-item-list .addr-map img
+{
+    width: 150px;
+    height: 150px; border-radius: 150px;
+    
+    padding: 0;
+}
+
+.time-ago, .user-image-detail
+{
+    background-color: #6ba333;
+    height: 80px;
+    width: 80px;
+    border-radius: 80px;
+    color: white;
+    text-align: center;
+    position:absolute;
+    top: 170px;
+}
+.time-ago
+{
+    left:20px;
+    }
+
+.user-image-detail
+{
+    right: 20px;
+}
+
+.time-ago >div
+{
+    height: 40px;
+    line-height: 40px;
+}
+
+.time-ago .time-ago-unit
+{
+    border-bottom-left-radius: 40px;
+    border-bottom-right-radius: 40px;
+    background-color: #282828;
+    font-size: 10px;
+}
+.user-image-detail img
+{
+    border-radius: 80px;
+    
+}
+
 .km-content .txt-long-fld p, .km-content .txt-long-fld h1, .km-content .txt-long-fld h2, .km-content .txt-long-fld h3, .km-content .txt-long-fld h4, .km-content .txt-long-fld h5, .km-content .txt-long-fld h6
 {
     margin-left: 0;

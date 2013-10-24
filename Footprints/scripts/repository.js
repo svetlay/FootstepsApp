@@ -252,6 +252,7 @@ SitefinityRepository.prototype = {
             });
         }
         else {
+          
             this.processDataItem(data, type);
         }
     },
