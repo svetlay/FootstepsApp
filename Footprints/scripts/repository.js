@@ -95,14 +95,16 @@ SitefinityRepository.prototype = {
     getTypeDataSource: function (app, type, requestEnd, onerror) {
         var dataSourceType = this.registerDataSourceDialect(app, type);
         var dataSource = new kendo.data.DataSource({
-            pageSize: 10,
+            pageSize: 20,
+       
             serverPaging: true,
             type: dataSourceType,
             transport: {
                 //we need transport declared here in order to have working CRUD operations
             },
             requestEnd: requestEnd,
-            error: onerror
+            error: onerror,
+            
         });
         return dataSource;
     },
@@ -135,6 +137,7 @@ SitefinityRepository.prototype = {
                         return result;
                     },
                     total: function (response) {
+                        
                         return response.TotalCount;
                     },
                     model: model
@@ -458,6 +461,7 @@ SitefinityRepository.prototype = {
                             return response.Items;
                         },
                         total: function (response) {
+                            
                             return response.TotalCount;
                         }
                     }
@@ -837,7 +841,7 @@ EverliveRepository.prototype = {
             },
             serverFiltering: true,
             serverSorting: true,
-            pageSize: 10,
+            pageSize: 20,
             serverPaging: true
         };
         var query = this._buildTypeDataSourceQuery(app, type);

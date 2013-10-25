@@ -75,6 +75,8 @@
                 data-template="masterViewTemplate"
                 data-auto-bind="true"
                 data-endless-scroll="true"
+                data-endlessScroll="true"
+                data-scroll-threshold=30
                 data-bind="source: dataSource,  events: { dataBinding: bindingMasterView, click: bindDetailsView}"
                 class="content-items-list"
                 >
@@ -411,7 +413,7 @@
         <script type="text/x-kendo-tmpl" id="masterViewTemplate">
             <div class="swipe-container" data-status="#= moduleApp.getMainVisitStatus(data) #" data-author="#= Author #">
                 <div class="swipe-button swipe-delete ">
-                    <a href="" data-role="button" data-action="moduleApp.viewModel.destroy" data-icon="delete"></a>
+                    <a href="" data-role="button" data-action="moduleApp.viewModel.destroy" data-bind="events:{ click: deleteListItem}"  data-icon="delete"></a>
                 </div>
                 <div class="swipe-button swipe-location">
                     <a href="" data-role="button" data-icon="globe"></a>

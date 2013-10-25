@@ -315,12 +315,34 @@ ModuleApp.prototype = {
                 }
             },
             bindingMasterView: function (e) {
-               
                 e.sender.items().remove();
                 if (this.refreshScroller) {
                     e.sender._bindScroller();
                     e.sender._scroller().scrollTo(0, 0);
                 }
+            },
+            deleteListItem: function (e) {
+             
+                e.preventDefault();
+                debugger;
+                  navigator.notification.confirm(
+                    'Do you want to delete this item?',
+                    function (confirmed) {
+                        if (confirmed === true || confirmed === 1) {
+                            that.app.showLoading();
+                            that.viewModel.dataSource.remove(that.viewModel.item);
+                            that.viewModel.dataSource.sync();
+                        }
+                    },
+                    'Delete',
+                    'Delete,Cancel'
+                    );
+            }
+            ,
+            
+            showMap: function (e) {
+                debugger;
+                e.preventDefault();
             },
             bindDetailsView: function (e) {
                 //get parentItem Id
@@ -1380,10 +1402,10 @@ ModuleApp.prototype = {
         return value;
     },
     
-        getMainVisitStatus: function (data) {
+    getMainVisitStatus: function (data) {
         var value = data['VisitStatus'];
         if (value && value.hasOwnProperty("PersistedValue")) {
-            value = value["PersistedValue"].replace(/(\r\n|\n|\r)/gm,"");
+            value = value["PersistedValue"].replace(/(\r\n|\n|\r)/gm, "");
         }
         return value;
     },
@@ -1403,15 +1425,12 @@ ModuleApp.prototype = {
                     thumbnailUrl = userData.AvatarThumbnailUrl;
                     $('*[data-author="' + author + '"] .user-icon').css('background-image', 'url("' + thumbnailUrl + '")');
                     moduleApp.authorData[data["Author"]] = thumbnailUrl;
-           
                 }
                 
             
             
             });
         }
-        
-        
         
         return thumbnailUrl;
     },
@@ -2101,7 +2120,6 @@ kendo.data.binders.documentSource = kendo.data.Binder.extend({
 kendo.data.binders.addressBinding = kendo.data.Binder.extend({
     init: function (element, bindings, options) {
         //call the base constructor
-        
         kendo.data.Binder.fn.init.call(this, element, bindings, options);
 
         var that = this;
