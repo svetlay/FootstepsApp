@@ -133,7 +133,6 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 #mobileApp .km-listinset>li
 {
     border-radius: 0;
-    border: none;
     margin-bottom: 20px;
     border-left: 4px solid #6ba338;
 }
@@ -309,12 +308,15 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 #mobileApp .app-name
 {
-    margin: 6rem 2rem 4rem;
+    margin: 2rem 1rem 2rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow: hidden;
     font-size: 4.5em;
     font-weight: normal;
+    color:white;
+    
+    text-shadow: 1px 1px 1px #000;
 }
 #mobileApp .sf-name
 {
@@ -332,6 +334,17 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     float: right;
 }
+
+.login-scrn .km-listinset, input
+{float:left;
+}
+.login-scrn .km-listinset
+{
+    width: 80%;
+    margin: 0 10%;
+    
+}
+
 
 .login-scrn .km-button
 {
@@ -353,8 +366,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .km-android .login-scrn .km-list > li
 {
     color: #000;
-    border-bottom: 0;
-    background-color: #fff;
+     border: 1px solid #c1c1c1;
     padding: 0;
     height: 30px;
     line-height: 30px;
