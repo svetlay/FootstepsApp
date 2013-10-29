@@ -16,19 +16,27 @@
         <script src="scripts/jQueryMapPlugins/js/jquery.ui.map.js"></script>
         <script src="scripts/jQueryMapPlugins/js/jquery.ui.map.extensions.js"></script>
         <script src="kendo/js/kendo.all.min.js"></script>
-        
+
         <script src="scripts/config.js"></script>
     </head>
     <body id="mobileApp">
+
         <div data-role="view" id="tabstrip-home" data-model="sitefinityMobileApplication.viewModel" class="login-scrn">
+            <div data-role="header">
+                <div data-role="navbar" class="left-btn-sep">
+                    <span>Footprints</span>
+                    
+
+                </div>
+            </div>
             <hgroup>
                 <!--<h1 id="moduleName" data-bind="html: moduleName" class="app-name"></h1> -->
                 <!--<h4 class="sf-name">Sitefinity</h4>-->
-                    <h4 id="moduleName" data-bind="html: moduleName" class="app-name"></h4>
+             
             </hgroup>
-            
+
             <ul class="km-listview km-list km-listinset">
-            
+
                 <li>
 
                     <input type="text" id="username" data-bind="value: userData.username" placeholder="Username" />
