@@ -1,3 +1,14 @@
+@font-face {
+  font-family: 'footprints';
+  src: url('../fonts/footprints.eot?26104781');
+  src: url('../fonts/footprints.eot?26104781#iefix') format('embedded-opentype'),
+       url('../fonts/footprints.woff?26104781') format('woff'),
+       url('../fonts/footprints.ttf?26104781') format('truetype'),
+       url('../fonts/footprints.svg?26104781#footprints') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #mobileApp .km-content, #mobileApp .km-header
 {
    
@@ -790,7 +801,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 {
     width: 100%;
     position: absolute;
-    left: 5px;
+    /*left: 5px;*/
     z-index: 3;
 }
 
@@ -1349,4 +1360,73 @@ Matched CSS Rules
 {
     background-color: #4f4f4f;
 }
+
+
+
+
+
+
+
+
+
+
+
+
+#custom-tabstrip,
+#custom-tabstrip .km-button
+{
+    background-color: #f4f4f4;
 }
+
+#custom-tabstrip .km-button:before
+{
+    background-color: #d2d2d2;
+    content: "";
+    display: block;
+    position: absolute;
+    top: -10px;
+    left: 0;
+    height: 10px;
+    width: 100%;
+    box-shadow: inset 0px 0px 4px 1px rgba(0,0,0,0.3);
+}
+
+#custom-tabstrip .km-state-active
+{
+    background-color: transparent;
+}
+
+#custom-tabstrip .km-state-active:before
+{
+    background-color: #6da43a;
+    box-shadow: inset 0px 0px 4px 1px rgba(0,0,0,0.4);
+}
+
+#custom-tabstrip .km-text,
+#custom-tabstrip .km-icon
+{
+	color: #c1c1c1;
+}
+
+.km-icon:after,
+.km-icon:before
+{
+    font: 1em/1em "footprints";
+    text-align: center;
+}
+
+#custom-tabstrip .km-state-active .km-text,
+#custom-tabstrip .km-state-active .km-icon
+{
+	color: #6ba338;
+    background-color: transparent;
+}
+
+.km-vespa:after,
+.km-vespa:before { content: '\e800'; }
+
+.km-locator:after,
+.km-locator:before { content: '\e801'; }
+
+.km-configure:after,
+.km-configure:before { content: '\e802'; }
