@@ -81,13 +81,7 @@
                 class="content-items-list"
                 >
             </ul>
-            <div data-role="footer">
-                <div data-role="tabstrip" id="custom-tabstrip">
-                    <a href="#tabstrip-master-view" data-icon="vespa"></a>
-                    <a href="#tabstrip-master-view" data-icon="locator"></a>
-                    <a href="#tabstrip-master-view" data-icon="configure"></a>
-                </div>
-            </div>
+
         </div>
 
         <script>
@@ -429,7 +423,7 @@
                        data-touchstart="myTouch.touchstart"
                        data-swipe="myTouch.swipe" class="swipe-list-item">
                     <div class="swipe-list-item-inner">
-                        <span class='#= moduleApp.getUserImage(data)# user-icon'/>
+                         <img data-bind="authorImageSource: src " class="user-icon"/>
                         <b class="content-item-name">#= moduleApp.getMainShortText(data)#
                     
                         </b>   
@@ -667,6 +661,7 @@
         <script id="imageViewTemplate" type="text/x-kendo-template">
             <div class="img-wrp">
                 <img data-bind="imageSource: src , click: image.slideShow" data-index="i"/>
+            
             </div>
         </script>
         <!--  slideshow view template --->

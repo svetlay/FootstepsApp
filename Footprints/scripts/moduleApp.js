@@ -262,7 +262,33 @@ ModuleApp.prototype = {
             item: {},
             searchCriteria: '',
             imageSource: '',
+            authorImageSource: '',
             imageFieldSource: '',
+            authorThumbnailUrl: function(item) {
+                var url = websiteUrl + "/sitefinity/services/security/users.svc/" + item.LastModifiedBy;
+                var author = item.Author;
+                var thumbnailUrl = that.userData[author];
+            
+                if (thumbnailUrl == null) {
+                    $.sitefinityAjax(
+                        {
+
+                        url: url,
+            
+            
+                        success: function(userData) { 
+                            thumbnailUrl = userData.AvatarThumbnailUrl;
+                            $('*[data-author="' + author + '"] .user-icon').css('background-image', 'url("' + thumbnailUrl + '")');
+                            moduleApp.authorData[author] = thumbnailUrl;
+                            return thumbnailUrl;
+                        }
+                
+            
+            
+                    });
+                }
+             
+            },
             previousUrl: '',
             dataSource: {},
             allowAccess: {
@@ -322,10 +348,8 @@ ModuleApp.prototype = {
                 }
             },
             deleteListItem: function (e) {
-             
                 e.preventDefault();
-                debugger;
-                  navigator.notification.confirm(
+                navigator.notification.confirm(
                     'Do you want to delete this item?',
                     function (confirmed) {
                         if (confirmed === true || confirmed === 1) {
@@ -341,7 +365,6 @@ ModuleApp.prototype = {
             ,
             
             showMap: function (e) {
-                debugger;
                 e.preventDefault();
             },
             bindDetailsView: function (e) {
@@ -428,6 +451,10 @@ ModuleApp.prototype = {
                     if (moduleApp.validator.validate()) {
                         that.app.showLoading();
                         this.dataSource.sync();
+                      
+                         
+                     
+                     
                     }
                 }
                 else {
@@ -1411,7 +1438,7 @@ ModuleApp.prototype = {
     },
     
     getUserImage: function (data) {
-        var url = "http://gartnerpcc.sitefinity.com/sitefinity/services/security/users.svc/" + data["LastModifiedBy"];
+        var url = websiteUrl + "" + data["LastModifiedBy"];
         var thumbnailUrl = this.authorData[data["Author"]];
         var author = data["Author"];
         if (thumbnailUrl == null) {
@@ -1431,7 +1458,7 @@ ModuleApp.prototype = {
             
             });
         }
-        
+
         return thumbnailUrl;
     },
 
@@ -2094,6 +2121,27 @@ kendo.data.binders.imageSource = kendo.data.Binder.extend({
         }
         else {
             moduleApp.repository.loadImage(source, moduleApp.userData.website, function (src) {
+                element.attr(attribute, src);
+            });
+        }
+    }
+});
+
+
+kendo.data.binders.authorImageSource = kendo.data.Binder.extend({
+    refresh: function () {
+  
+        var binding = this.bindings['authorImageSource'],
+        source = binding.source,
+        attribute = binding.path,
+        element = $(this.element),
+        src = moduleApp.repository.getCachedAuthorImageThumbnailUri(source.LastModifiedBy);
+
+        if (src) {
+            element.attr(attribute, src);
+        }
+        else {
+            moduleApp.repository.loadAuthorImage(source.LastModifiedBy, moduleApp.userData.website, function (src) {
                 element.attr(attribute, src);
             });
         }

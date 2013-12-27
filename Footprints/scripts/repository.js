@@ -41,6 +41,7 @@ function SitefinityRepository() {
         "Ordinal": "",
     };
     this.imageCache = {};
+    this.authorImageCache = {};
     this.tagsCache = {};
 }
 
@@ -114,17 +115,17 @@ SitefinityRepository.prototype = {
     },
     registerSitefinityDialect: function (app, type) {
         var readUrl = '',
-            updateUrl = '',
-            deleteUrl = '';
+        updateUrl = '',
+        deleteUrl = '';
 
         readUrl = app.userData.website + '/sitefinity/Frontend/services/DynamicModules/Data.svc/' + 'live/?provider=' + app.providerName + '&itemType=' + type.FullName;
         updateUrl = app.userData.website + app.dataServiceUrl + app.emptyGuid + '/?provider=' + app.providerName + '&workflowOperation=Publish&itemType=' + type.FullName;
         deleteUrl = app.userData.website + app.dataServiceUrl + 'batch/?provider=' + app.providerName + '&itemType=' + type.FullName;
 
         var model = app.getModel(type),
-            that = this,
-            kendo = window.kendo,
-		    extend = $.extend;
+        that = this,
+        kendo = window.kendo,
+        extend = $.extend;
 
         extend(true, kendo.data, {
             pageSize: 10,
@@ -137,7 +138,6 @@ SitefinityRepository.prototype = {
                         return result;
                     },
                     total: function (response) {
-                        
                         return response.TotalCount;
                     },
                     model: model
@@ -148,8 +148,8 @@ SitefinityRepository.prototype = {
                     read: {
                         url: function () {
                             var addressFieldName = app.getAddressFieldName(type),
-							url = '',
-							filter = '';
+                            url = '',
+                            filter = '';
                             if (app.mode == 0 && app.position && addressFieldName && addressFieldName != '') {
                                 url = readUrl + '&radius=10000&longitude=' + app.position.coords.longitude + '&latitude=' + app.position.coords.latitude + '&geoLocationProperty=' + addressFieldName + '&sortExpression=Distance ASC';
                             }
@@ -255,7 +255,6 @@ SitefinityRepository.prototype = {
             });
         }
         else {
-          
             this.processDataItem(data, type);
         }
     },
@@ -283,7 +282,7 @@ SitefinityRepository.prototype = {
     loadImage: function (contentLink, website, success) {
         if (website && contentLink && contentLink.hasOwnProperty('ChildItemId') && contentLink.hasOwnProperty('ChildItemProviderName')) {
             var imageService = website + '/Sitefinity/Frontend/Services/Content/ImageService.svc/live/' + contentLink.ChildItemId + '/?provider=' + contentLink.ChildItemProviderName,
-                that = this;
+            that = this;
             $.sitefinityAjax({
                 type: 'GET',
                 url: imageService,
@@ -296,11 +295,37 @@ SitefinityRepository.prototype = {
             });
         }
     },
+    loadAuthorImage: function (authorId, website, success) {
+        if (website && authorId) {
+            var userService = website + '/sitefinity/services/security/users.svc/' + authorId,
+            that = this;
+            $.sitefinityAjax({
+                type: 'GET',
+                url: userService,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    that.cacheAuthorImageUrls(data);
+                    success(data.AvatarThumbnailUrl);
+                }
+            });
+        }
+    },
     cacheImageUrls: function (image) {
         this.imageCache[image.Id] = { 'Uri': image.MediaUrl, 'ThumbnailUri': image.ThumbnailUrl };
     },
+    cacheAuthorImageUrls: function (user) {
+        this.imageCache[user.UserID] = { 'Uri': user.AvatarUrl, 'ThumbnailUri': user.AvatarThumbnailUrl };
+    },
     getCachedImageThumbnailUri: function (contentLink) {
         var img = this.imageCache[contentLink.ChildItemId];
+        if (img) {
+            return img.ThumbnailUri;
+        }
+    },
+    
+    getCachedAuthorImageThumbnailUri: function (authorId) {
+        var img = this.imageCache[authorId];
         if (img) {
             return img.ThumbnailUri;
         }
@@ -313,6 +338,9 @@ SitefinityRepository.prototype = {
     },
     clearImageCache: function () {
         this.imageCache = {};
+    },
+    clearAuthorImageCache: function () {
+        this.authorImageCache = {};
     },
     cacheTagsData: function (url, data) {
         this.tagsCache[url] = data;
@@ -327,10 +355,10 @@ SitefinityRepository.prototype = {
         var that = this;
         $(fields).each(function (index, element) {
             var element = $(element),
-                addressField = element.attr('data-address-field'),
-                dataBind = element.attr('data-bind'),
-                valueBinding = 'value: ' + fieldName + that.fieldSeparator + addressField,
-                attr = dataBind ? dataBind + ', ' + valueBinding : valueBinding;
+            addressField = element.attr('data-address-field'),
+            dataBind = element.attr('data-bind'),
+            valueBinding = 'value: ' + fieldName + that.fieldSeparator + addressField,
+            attr = dataBind ? dataBind + ', ' + valueBinding : valueBinding;
 
             element.attr('data-bind', attr);
         });
@@ -392,10 +420,10 @@ SitefinityRepository.prototype = {
     },
     upload: function (app, itemURI, contentType, providerName, libraryId, fail, success) {
         var ft,
-		options,
-		params,
-		that = this,
-		url = app.userData.website + this._handlerURI.images;
+        options,
+        params,
+        that = this,
+        url = app.userData.website + this._handlerURI.images;
 
         //that._itemURI = itemURI;
         options = new FileUploadOptions();
@@ -415,7 +443,7 @@ SitefinityRepository.prototype = {
         ft = new FileTransfer();
         ft.upload(itemURI, url, function (response) {
             var result = JSON.parse(response.response),
-			currentField = jQuery.extend({}, that.blankContentLink);
+            currentField = jQuery.extend({}, that.blankContentLink);
 
             currentField.ChildItemAdditionalInfo = result.ContentItem.ThumbnailUrl;
             currentField.ChildItemType = app.Files.Images._contentType;
@@ -461,7 +489,6 @@ SitefinityRepository.prototype = {
                             return response.Items;
                         },
                         total: function (response) {
-                            
                             return response.TotalCount;
                         }
                     }
@@ -476,8 +503,8 @@ SitefinityRepository.prototype = {
             getData: function (moduleApp, fieldName, classificationData, success) {
                 var item = moduleApp.viewModel.get('item');
                 var classificationId = classificationData,
-                    idsArray = item[fieldName],
-                    filter = '';
+                idsArray = item[fieldName],
+                filter = '';
 
                 $.each(idsArray, function (index, value) {
                     if (typeof value.join === 'function') {
@@ -493,7 +520,7 @@ SitefinityRepository.prototype = {
 
                 if (filter.length > 0) {
                     var flatTaxonServiceUrl = moduleApp.userData.website + '/Sitefinity/Frontend/Services/Taxonomies/FlatTaxon.svc/' + classificationId
-                            + '/?sortExpressions=Title%20ASC&mode=Simple&filter=' + filter;
+                                              + '/?sortExpressions=Title%20ASC&mode=Simple&filter=' + filter;
                     var data = moduleApp.repository.getCachedTagsData(flatTaxonServiceUrl);
                     if (!data) {
                         $.sitefinityAjax({
@@ -510,7 +537,8 @@ SitefinityRepository.prototype = {
                                 }
                             }
                         });
-                    } else {
+                    }
+                    else {
                         if (typeof success === 'function') {
                             success(data);
                         }
@@ -536,13 +564,16 @@ SitefinityRepository.prototype = {
             crossDomain: true,
             dataType: 'json',
             contentType: 'application/json',
-            success: function (response, textStatus, jqXHR) { },
-            error: function (response) { }
+            success: function (response, textStatus, jqXHR) {
+            },
+            error: function (response) {
+            }
         });
     }
 };
 
 var everliveScriptsLoaded = false;
+
 function foo() {
     var RemoteTransport_read = kendo.data.RemoteTransport.prototype.read;
     kendo.data.RemoteTransport.prototype.read = function (options) {
@@ -578,6 +609,7 @@ function EverliveRepository(everliveAPIKey, everliveServiceUrl, everliveScheme, 
         realm: everliveRealm
     };
     this.imageCache = {};
+    this.authorImageCache = {};
     this.tagsCache = {};
 }
 EverliveRepository.prototype = {
@@ -613,16 +645,16 @@ EverliveRepository.prototype = {
                 var filter = new Everlive.Query();
                 filter.where().regex('Title', '.*' + searchCriteria + '.*', 'i');
                 Everlive.$.data(classificationData).get(filter)
-        			.then(function (data) {
-        			    $.each(data.result, function (index, value) {
-        			        data.result[index].TaxonomyName = classificationData;
-        			    })
-        			    moduleApp.viewModel.taxonomy.flat.dataSource.data(data.result);
-        			    moduleApp.viewModel.taxonomy.flat.dataSource.sync();
-        			},
-                    function (error) {
-                        logError(JSON.stringify(error));
-                    });
+                .then(function (data) {
+                    $.each(data.result, function (index, value) {
+                        data.result[index].TaxonomyName = classificationData;
+                    })
+                    moduleApp.viewModel.taxonomy.flat.dataSource.data(data.result);
+                    moduleApp.viewModel.taxonomy.flat.dataSource.sync();
+                },
+                      function (error) {
+                          logError(JSON.stringify(error));
+                      });
             },
             getData: function (moduleApp, fieldName, classificationData, success) {
                 var item = moduleApp.viewModel.get('item');
@@ -654,7 +686,8 @@ EverliveRepository.prototype = {
                             logError(JSON.stringify(error));
                         }
                     })
-                } else {
+                }
+                else {
                     if (typeof success === 'function') {
                         success(data);
                     }
@@ -725,7 +758,7 @@ EverliveRepository.prototype = {
     },
     logOut: function (box, success, error) {
         Everlive.$.Users.logout()
-		.then(success, error);
+        .then(success, error);
     },
     loadApplication: function (moduleApp, userData, callback) {
         var that = this;
@@ -751,9 +784,9 @@ EverliveRepository.prototype = {
                 }
             });
         },
-	   function (e) {
-	       logError(JSON.stringify(e));
-	   });
+                   function (e) {
+                       logError(JSON.stringify(e));
+                   });
     },
     processType: function (type, app) {
         var that = this;
@@ -885,7 +918,8 @@ EverliveRepository.prototype = {
                 else {
                     item[field.Name] = new kendo.data.ObservableArray([]);
                 }
-            } else if (field.TypeName === 'Classification') {
+            }
+            else if (field.TypeName === 'Classification') {
                 src = item[field.Name];
                 if (!src) {
                     item[field.Name] = new kendo.data.ObservableArray([]);
@@ -941,7 +975,7 @@ EverliveRepository.prototype = {
         var lat2 = this._toRadians(point2.latitude);
 
         var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-				Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
+                Math.sin(dLon / 2) * Math.sin(dLon / 2) * Math.cos(lat1) * Math.cos(lat2);
         var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
         var d = R * c;
         return d;
@@ -1029,20 +1063,45 @@ EverliveRepository.prototype = {
         var that = this;
         if (image && image.hasOwnProperty('ChildItemId')) {
             Everlive.$.data('Files').getById(image.ChildItemId)
-			.then(function (data) {
-			    that.cacheImageUrls(data.result);
-			    success(data.result.Uri);
-			},
-            function (error) {
-                logError(JSON.stringify(error));
+            .then(function (data) {
+                that.cacheImageUrls(data.result);
+                success(data.result.Uri);
+            },
+                  function (error) {
+                      logError(JSON.stringify(error));
+                  });
+        }
+    },
+        loadAuthorImage: function (authorId, website, success) {
+        if (website && authorId) {
+            var userService = website + '/sitefinity/services/security/users.svc/' + authorId,
+            that = this;
+            $.sitefinityAjax({
+                type: 'GET',
+                url: userService,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    that.cacheAuthorImageUrls(data);
+                    success(data.AvatarThumbnailUrl);
+                }
             });
         }
     },
     cacheImageUrls: function (image) {
         this.imageCache[image.Id] = image.Uri;
     },
+    cacheAuthorImageUrls: function (user) {
+        this.imageCache[user.Id] = { 'Uri': user.AvatarUrl, 'ThumbnailUri': user.AvatarThumbnailUrl };
+    },
     getCachedImageThumbnailUri: function (img) {
         return this.imageCache[img.ChildItemId];
+    },
+    getCachedAuthorImageThumbnailUri: function (authorId) {
+        var img = this.imageCache[authorId];
+        if (img) {
+            return img.ThumbnailUri;
+        }
     },
     getCachedImageUri: function (img) {
         return this.imageCache[img.ChildItemId];
@@ -1053,23 +1112,23 @@ EverliveRepository.prototype = {
     loadDocument: function (document, website, success) {
         if (document && document.hasOwnProperty('ChildItemId')) {
             Everlive.$.data('Files').getById(document.ChildItemId)
-			.then(function (data) {
-			    var result = { "MediaUrl": data.result.Uri, "Filename": data.result.Filename };
-			    success(result);
-			},
-            function (error) {
-                logError(JSON.stringify(error));
-            });
+            .then(function (data) {
+                var result = { "MediaUrl": data.result.Uri, "Filename": data.result.Filename };
+                success(result);
+            },
+                  function (error) {
+                      logError(JSON.stringify(error));
+                  });
         }
     },
     prepareEditAddressFieldTemplate: function (fields, fieldName) {
         var that = this;
         $(fields).each(function (index, element) {
             var element = $(element),
-                addressField = element.attr('data-address-field'),
-                dataBind = element.attr('data-bind'),
-                valueBinding = 'value: ' + fieldName + that.fieldSeparator + addressField,
-                attr = dataBind ? dataBind + ', ' + valueBinding : valueBinding;
+            addressField = element.attr('data-address-field'),
+            dataBind = element.attr('data-bind'),
+            valueBinding = 'value: ' + fieldName + that.fieldSeparator + addressField,
+            attr = dataBind ? dataBind + ', ' + valueBinding : valueBinding;
 
             element.attr('data-bind', attr);
         });
@@ -1100,9 +1159,9 @@ EverliveRepository.prototype = {
     },
     upload: function (app, itemURI, contentType, providerName, libraryId, fail, success) {
         var ft,
-		options,
-		params,
-		url = Everlive.Request.prototype.buildUrl(Everlive.$.setup) + 'Files';
+        options,
+        params,
+        url = Everlive.Request.prototype.buildUrl(Everlive.$.setup) + 'Files';
 
         //that._itemURI = itemURI;
         options = new FileUploadOptions();
@@ -1136,8 +1195,10 @@ EverliveRepository.prototype = {
     log: function (userData, errorData) {
         var data = Everlive.$.data('SitefinityMobileErrors');
         data.create(errorData,
-            function (data) { },
-            function (data) { }
+                    function (data) {
+                    },
+                    function (data) {
+                    }
         );
     },
     cacheTagsData: function (url, data) {
