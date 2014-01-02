@@ -264,6 +264,7 @@ ModuleApp.prototype = {
             imageSource: '',
             authorImageSource: '',
             imageFieldSource: '',
+            videoSource: '',
             authorThumbnailUrl: function(item) {
                 var url = websiteUrl + "/sitefinity/services/security/users.svc/" + item.LastModifiedBy;
                 var author = item.Author;
@@ -2147,6 +2148,24 @@ kendo.data.binders.authorImageSource = kendo.data.Binder.extend({
         }
     }
 });
+
+
+
+kendo.data.binders.videoSource = kendo.data.Binder.extend({
+    refresh: function () {
+        var binding = this.bindings['videoSource'],
+        src = binding.source,
+        attribute = binding.path,
+        element = $(this.element);
+
+        moduleApp.repository.loadVideo(src, moduleApp.userData.website, function (src) {
+            if (attribute == 'src')
+                element.attr(attribute, src.MediaUrl);
+
+        });
+    }
+});
+
 
 kendo.data.binders.documentSource = kendo.data.Binder.extend({
     refresh: function () {

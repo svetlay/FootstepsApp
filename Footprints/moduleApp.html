@@ -423,7 +423,7 @@
                        data-touchstart="myTouch.touchstart"
                        data-swipe="myTouch.swipe" class="swipe-list-item">
                     <div class="swipe-list-item-inner">
-                         <img data-bind="authorImageSource: src " class="user-icon"/>
+                        <img data-bind="authorImageSource: src " class="user-icon"/>
                         <b class="content-item-name">#= moduleApp.getMainShortText(data)#
                     
                         </b>   
@@ -444,26 +444,28 @@
         <script id="viewTemplate" type="text/x-kendo-template">
  
             <ul class="view-item-list">
-                       <div class="time-ago">
-                <div class="time-ago-quantity">
-                    #=  timeSince(moduleApp.viewModel.item.DateCreated)[0] #
-                </div>
-                <div class="time-ago-unit">
-                    #=  timeSince(moduleApp.viewModel.item.DateCreated)[1] #
+                <div class="time-ago">
+                    <div class="time-ago-quantity">
+                        #=  timeSince(moduleApp.viewModel.item.DateCreated)[0] #
+                    </div>
+                    <div class="time-ago-unit">
+                        #=  timeSince(moduleApp.viewModel.item.DateCreated)[1] #
                 
-                    ago
+                        ago
+                    </div>
                 </div>
-            </div>
-            <div class="user-image-detail">
-                <img src="#= moduleApp.authorData["Svetla Yankova"] #" width="80px" height="80px" />
-            </div>
+                <div class="user-image-detail">
+                    <img src="#= moduleApp.authorData["Svetla Yankova"] #
+                
+                         " width="80px" height="80px" />
+                </div>
                 # var field;
-        
+                
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldViewTemplate(field) #
                 # }
-        
+            
                 #
             </ul>
         </script>
@@ -475,19 +477,19 @@
         </div>
         <div class="time-ago-unit">
         #=  timeSince(moduleApp.viewModel.item.DateCreated)[1] #
-                
+        
         ago
         </div>
         </div>
         <ul class="view-item-list">
                 
         # var field;
-            
+        
         for (var i = 0; i < type.Fields.length; i++) {
         field = type.Fields[i];#
         #= moduleApp.getFieldViewTemplate(field) #
         # }
-                
+        
         #
         </ul>
         </script> -->
@@ -495,12 +497,12 @@
         <script id="editTemplate" type="text/x-kendo-template">
             <ul class="edit-item-list">
                 # var field;
-        
+                
                 for (var i = 0; i < type.Fields.length; i++) {
                     field = type.Fields[i];#
                     #= moduleApp.getFieldEditTemplate(field) #
                 # }
-                
+            
                 #
             </ul>
         </script>
@@ -511,7 +513,7 @@
                    " data-field-taxonomy-name="#= Title#
                    " data-bind="click: taxonomy.flat.setSelected">#= data.Name ? data.Name : data.Title#</b>
             #}
-               
+        
             #
         </script>
 
@@ -552,7 +554,7 @@
         <script id="dateTimeViewTemplate" type="text/x-kendo-template">
             <li class="date-fld non-txt-fld">
                 <b>#= Title #:</b> <span data-bind="dateTimeBinding: item.#= Name #
-        
+            
                                          "></span>
             </li>
         </script>
@@ -596,19 +598,20 @@
                     </li>
                     #break;
                 case 'video':#
-                    <li class="video-fld">
+                            <li class="vid-fld">
                         <b>#= Title #:</b>
+                        <div data-bind="source: getMediaDataSource('#= Name #')" data-template="videoViewTemplate" class="doc-list"></div>
                     </li>
                     #break;
             }
-            
+        
             #
         </script>
         <!-- classification -->
         <script id="classificationViewTemplate" type="text/x-kendo-template">
             <li class="tag-fld">
                 <b>#= Title #:</b> <span data-field-classification="#= data.ClassificationId ? data.ClassificationId : data.Name #" data-bind="flatTaxonBinding: item.#= Name#
-        
+            
                                          "></span>
             </li>
         </script>
@@ -653,7 +656,7 @@
                     </li>
                     #break;
             }
-            
+        
             #
         </script>
 
@@ -661,7 +664,7 @@
         <script id="imageViewTemplate" type="text/x-kendo-template">
             <div class="img-wrp">
                 <img data-bind="imageSource: src , click: image.slideShow" data-index="i"/>
-            
+
             </div>
         </script>
         <!--  slideshow view template --->
@@ -673,6 +676,14 @@
         <script id="documentViewTemplate" type="text/x-kendo-template">
             <div class="doc-wrp">
                 <a data-bind="documentSource: text, click: bindDocumentDetailView"></a>
+            </div>
+        </script>
+
+        <script id="videoViewTemplate" type="text/x-kendo-template">
+            <div class="vid-wrp">
+            <video>
+                <source data-bind="videoSource: src" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+            </video>
             </div>
         </script>
 
@@ -752,7 +763,8 @@
                         <select data-bind="choicesDropDownBinding: item.#= Name#">
                             # for (var i = 0; i < data.Choices.length; i++) {
                                 var choice = data.Choices[i];#
-                                <option value="#=choice.Value#">#= choice.Text#</option>
+                                <option value="#=choice.Value#
+                                        ">#= choice.Text#</option>
                             # } #
                         </select>
                     </li>
@@ -763,7 +775,8 @@
                         <select data-bind="choicesDropDownBinding: item.#= Name#">
                             # for (var i = 0; i < data.Choices.length; i++) {
                                 var choice = data.Choices[i];#
-                                <option value="#=choice.Value#">#= choice.Text#</option>
+                                <option value="#=choice.Value#
+                                        ">#= choice.Text#</option>
                             # } #
                         </select>
                     </li>
@@ -800,7 +813,7 @@
                     </li>
                     #break;
             }
-            
+        
             #
         </script>
         <!--  flat taxon view template --->
