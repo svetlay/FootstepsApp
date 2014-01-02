@@ -295,6 +295,21 @@ SitefinityRepository.prototype = {
             });
         }
     },
+    loadVideo: function (contentLink, website, success){
+            if (website && contentLink && contentLink.hasOwnProperty('ChildItemId') && contentLink.hasOwnProperty('ChildItemProviderName')) {
+            var videoService = website + '/Sitefinity/Services/Content/VideoService.svc/live/' + contentLink.ChildItemId + '/?provider=' + contentLink.ChildItemProviderName;
+            $.sitefinityAjax({
+                type: 'GET',
+                url: videoService,
+                dataType: 'json',
+                contentType: 'application/json; charset=utf-8',
+                success: function (data) {
+                    var result = { "MediaUrl": data.Item.MediaUrl, "Filename": data.Item.Title.Value + data.Item.Extension };
+                    success(result);
+                }
+            });
+        }
+    },
     loadAuthorImage: function (authorId, website, success) {
         if (website && authorId) {
             var userService = website + '/sitefinity/services/security/users.svc/' + authorId,
