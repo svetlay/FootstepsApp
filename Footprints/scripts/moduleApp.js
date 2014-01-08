@@ -288,7 +288,6 @@ ModuleApp.prototype = {
             
                     });
                 }
-             
             },
             previousUrl: '',
             dataSource: {},
@@ -452,10 +451,6 @@ ModuleApp.prototype = {
                     if (moduleApp.validator.validate()) {
                         that.app.showLoading();
                         this.dataSource.sync();
-                      
-                         
-                     
-                     
                     }
                 }
                 else {
@@ -1431,9 +1426,18 @@ ModuleApp.prototype = {
     },
     
     getMainVisitStatus: function (data) {
-        var value = data['VisitStatus'];
-        if (value && value.hasOwnProperty("PersistedValue")) {
-            value = value["PersistedValue"].replace(/(\r\n|\n|\r)/gm, "");
+        var that = this,value=1, fieldName;
+        $.each(moduleApp.viewModel.type.Fields, function (index, field) {
+            //todo: add type map
+            if (field.FieldType === that.typeNames.indexOf("Choices")) {
+                fieldName = field.Name;
+            }
+        });
+        if (fieldName) {
+            value = data[fieldName];
+            if (value && value.hasOwnProperty("PersistedValue")) {
+                value = value["PersistedValue"].replace(/(\r\n|\n|\r)/gm, "");
+            }
         }
         return value;
     },
@@ -2128,10 +2132,8 @@ kendo.data.binders.imageSource = kendo.data.Binder.extend({
     }
 });
 
-
 kendo.data.binders.authorImageSource = kendo.data.Binder.extend({
     refresh: function () {
-  
         var binding = this.bindings['authorImageSource'],
         source = binding.source,
         attribute = binding.path,
@@ -2149,8 +2151,6 @@ kendo.data.binders.authorImageSource = kendo.data.Binder.extend({
     }
 });
 
-
-
 kendo.data.binders.videoSource = kendo.data.Binder.extend({
     refresh: function () {
         var binding = this.bindings['videoSource'],
@@ -2161,11 +2161,9 @@ kendo.data.binders.videoSource = kendo.data.Binder.extend({
         moduleApp.repository.loadVideo(src, moduleApp.userData.website, function (src) {
             if (attribute == 'src')
                 element.attr(attribute, src.MediaUrl);
-
         });
     }
 });
-
 
 kendo.data.binders.documentSource = kendo.data.Binder.extend({
     refresh: function () {
