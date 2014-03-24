@@ -47,7 +47,7 @@ var ModuleApp = function () {
     this.googleScriptLoaded = null;
 
     /* Field Types */
-    this.typeNames = ['Unknown', 'ShortText', 'LongText', 'MultipleChoice', 'YesNo', 'Currency', 'DateTime', 'Number', 'Classification', 'Media', 'Guid', 'GuidArray', 'Choices', 'Address'];
+    this.typeNames = ['Unknown', 'ShortText', 'LongText', 'MultipleChoice', 'YesNo', 'Currency', 'DateTime', 'Number', 'Classification', 'Media', 'Guid', 'GuidArray', 'Choices', 'Address','Media'];
     this.getRootTypes = function (types) {
         var rootTypes = $.grep(types, function (n, i) {
             return (n.ParentTypeId === moduleApp.emptyGuid || n.ParentTypeId === undefined);
@@ -369,6 +369,7 @@ ModuleApp.prototype = {
             },
             bindDetailsView: function (e) {
                 //get parentItem Id
+             
                 var dataFieldType = $(e.target).get(0).getAttribute('data-option');
                 if (dataFieldType == 'getDetails') {
                     moduleApp.viewModel.bindHierarchicalTypeDetailsView(e);
@@ -1161,6 +1162,7 @@ ModuleApp.prototype = {
                 }
             },
             getMediaDataSource: function (fieldName) {
+                
                 var item = this.get('item'),
                 src = item[fieldName];
 
@@ -2115,18 +2117,22 @@ kendo.data.binders.flatTaxonBinding = kendo.data.Binder.extend({
 
 kendo.data.binders.imageSource = kendo.data.Binder.extend({
     refresh: function () {
+     
         var binding = this.bindings['imageSource'],
         source = binding.source,
         attribute = binding.path,
         element = $(this.element),
         src = moduleApp.repository.getCachedImageThumbnailUri(source);
-
+	
         if (src) {
             element.attr(attribute, src);
         }
         else {
+           
             moduleApp.repository.loadImage(source, moduleApp.userData.website, function (src) {
-                element.attr(attribute, src);
+                
+                	element.attr(attribute, src);
+                
             });
         }
     }

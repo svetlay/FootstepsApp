@@ -920,6 +920,7 @@ EverliveRepository.prototype = {
         }
     },
     processDataItem: function (item, type) {
+       
         $.each(type.Fields, function (i, field) {
             if (field.TypeName === "Media") {
                 var src = item[field.Name];
@@ -1011,7 +1012,7 @@ EverliveRepository.prototype = {
         else {
             return {
                 filter: searchFilter,
-                // TODO sort by publication date
+               
                 sort: { field: "ModifiedAt", dir: "desc" }
             };
         }

@@ -314,7 +314,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     overflow: hidden;
     font-size: 4.5em;
     font-weight: normal;
-    color:white;
+    color: white;
     
     text-shadow: 1px 1px 1px #000;
 }
@@ -336,16 +336,15 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 }
 
 .login-scrn .km-listinset, input
-{float:left;
+{
+    float: left;
 }
 .login-scrn .km-listinset
 {
     width: 80%;
     
     margin: 160px 10% 0 10%;
-    
 }
-
 
 .login-scrn .km-button
 {
@@ -367,7 +366,7 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 .km-android .login-scrn .km-list > li
 {
     color: #000;
-     border: 1px solid #c1c1c1;
+    border: 1px solid #c1c1c1;
     padding: 0;
     height: 30px;
     line-height: 30px;
@@ -760,10 +759,10 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
 /*
 #mobileApp .content-items-list > li div.swipe-list-item
 {
-    position: relative;
-    background-color: white;
-    background-image: url(../img/item.png);
-    background-repeat: no-repeat;
+position: relative;
+background-color: white;
+background-image: url(../img/item.png);
+background-repeat: no-repeat;
 }*/
 #mobileApp .content-items-list > li  div.swipe-list-item
 {
@@ -771,14 +770,21 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     background-color: white;
     background-image: url(../img/item.png);
     background-repeat: no-repeat;
+    height: 80px;
 }
-
 
 #mobileApp .content-items-list > li .swipe-container[data-status="2"] div.swipe-list-item
 {
     
     background-image: url(../img/item-yellow.png);
- 
+    height: 80px;
+}
+
+#mobileApp .content-items-list > li .swipe-container[data-status="3"] div.swipe-list-item
+{
+    
+    background-image: url(../img/item-red.PNG);
+    height: 80px;
 }
 
 #mobileApp .content-items-list > li div.swipe-list-item-inner
@@ -812,12 +818,16 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     background-color: #282828;
 }
 
+#mobileApp .content-items-list > li .swipe-delete :hover
+{
+    color: #e9c546
+}
+
 #mobileApp .content-items-list > li .swipe-location
 {
     left: 50px;
     background-color: #6ba338; 
 }
-
 
 #mobileApp .content-items-list > li .swipe-container[data-status="2"] .swipe-location
 {
@@ -825,6 +835,11 @@ input[type="text"], input[type="number"], input[type="datetime"], input[type="se
     background-color: #e9c546; 
 }
 
+#mobileApp .content-items-list > li .swipe-container[data-status="3"] .swipe-location
+{
+    
+    background-color: #e15b5b; 
+}
 
 element.style
 {
@@ -904,6 +919,7 @@ Matched CSS Rules
     padding: 0;
     list-style-type: none;
     font-weight: normal;
+    margin-top: 70%;
 }
 .view-item-list > li
 {
@@ -935,7 +951,10 @@ Matched CSS Rules
     width: 170px;
     height: 170px;
     border-radius: 170px;
-    
+    position: absolute;
+    top: 30px;
+    right: -40px;
+    z-index:5;
     background: rgb(249, 252, 247); /* Old browsers */
     background: -moz-linear-gradient(45deg, rgba(249, 252, 247, 1) 0%, rgba(245, 249, 240, 1) 100%); /* FF3.6+ */
     background: -webkit-gradient(linear, left bottom, right top, color-stop(0%, rgba(249, 252, 247, 1)), color-stop(100%, rgba(245, 249, 240, 1))); /* Chrome,Safari4+ */
@@ -953,7 +972,7 @@ Matched CSS Rules
 {
     width: 150px;
     height: 150px; border-radius: 150px;
-    
+  
     padding: 0;
 }
 
@@ -962,16 +981,18 @@ Matched CSS Rules
     background-color: #6ba333;
     height: 80px;
     width: 80px;
-    border-radius: 80px;
+
     color: white;
     text-align: center;
-    position:absolute;
-    top: 170px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    z-index: 5;
 }
 .time-ago
 {
-    left:20px;
-    }
+    left: 20px;
+}
 
 .user-image-detail
 {
@@ -986,15 +1007,13 @@ Matched CSS Rules
 
 .time-ago .time-ago-unit
 {
-    border-bottom-left-radius: 40px;
-    border-bottom-right-radius: 40px;
+
     background-color: #282828;
     font-size: 10px;
 }
 .user-image-detail img
 {
-    border-radius: 80px;
-    
+   
 }
 
 .km-content .txt-long-fld p, .km-content .txt-long-fld h1, .km-content .txt-long-fld h2, .km-content .txt-long-fld h3, .km-content .txt-long-fld h4, .km-content .txt-long-fld h5, .km-content .txt-long-fld h6
@@ -1060,8 +1079,23 @@ Matched CSS Rules
 }
 .img-list
 {
+
     display: inline;
 }
+.img-fld
+{
+    width: 100%;
+    height:40%;
+    
+    position: absolute;
+    left: 0;
+    top: -20px;
+    background-image: url('http://dn0tr4q7yo86c.cloudfront.net/img/featured.jpg');
+   box-shadow: 2px 2px 2px #d1d1d1;
+}
+
+
+
 .view-item-list .img-wrp, .edit-item-list .img-wrp, .edit-img-list .img-wrp, .add-img-list .img-wrp
 {
     display: inline-block;
@@ -1080,8 +1114,12 @@ Matched CSS Rules
 }
 .img-wrp img
 {
-    max-width: 100%;
-    vertical-align: middle;
+    width: 100%;
+    
+    position: absolute;
+    left: 0;
+    top: 0;
+    box-shadow: 2px 2px 2px #d1d1d1;
 }
 .slideshow-view > .km-content > .km-scroll-container
 {
