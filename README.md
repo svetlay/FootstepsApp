@@ -1,4 +1,4 @@
 FootstepsApp
 ============
 
-Mobile Application for tracking representatives
+Mobile Application Template for Sitefinity Apps
